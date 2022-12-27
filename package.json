@@ -9,12 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
     "@linode/api-v4": "^0.82.0",
-    "@mui/icons-material": "^5.10.16",
-    "@mui/material": "^5.10.16",
-    "@mui/x-data-grid-pro": "^5.17.13",
     "@tanstack/react-query": "^4.16.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

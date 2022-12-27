@@ -1,20 +1,17 @@
-import CircularProgress from "@mui/material/CircularProgress";
-import Typography from "@mui/material/Typography";
-import { useNavigate } from "react-router-dom";
 import { useProfile } from "./queries/profile";
 
 export function Home() {
   const { profile, isLoading, error } = useProfile();
 
   if (isLoading) {
-    return <CircularProgress />;
+    return <p>Loading</p>;
   }
 
   if (error) {
-    return <Typography>Error</Typography>;
+    return <p>Error</p>;
   }
 
   return (
-    <Typography>Hello {profile?.username}</Typography>
+    <p>Hello {profile?.username}</p>
   );
 };

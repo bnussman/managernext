@@ -1,25 +1,10 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Home } from "./Home";
-import { Linodes } from "./Linodes";
 import { authorizeUrl, clientId } from "./utils/constants";
 import { setToken } from "@linode/api-v4";
-import { Button, createTheme, CssBaseline, ThemeOptions, ThemeProvider } from "@mui/material";
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MenuIcon from '@mui/icons-material/Menu';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import { AccountBoxOutlined, SdStorage, Storage, SupervisedUserCircleOutlined } from "@mui/icons-material";
+import { Home } from "./Home";
+import { Linodes } from "./Linodes";
 
 const queryClient = new QueryClient();
 
@@ -65,9 +50,7 @@ function OAuth() {
 
 function Main() {
   const location = useLocation();
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
-  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -100,6 +83,19 @@ function Main() {
     window.location.href = encodeURI(`${authorizeUrl}?response_type=token&client_id=${clientId}&state=xyz&redirect_uri=http://localhost:5173/callback&scope=*`);
   }, []);
 
+  return (
+    <Routes>
+      <Route path="/callback" element={<OAuth />} />
+      {!isLoading && (
+        <>
+          <Route path="/linodes" element={<Linodes />} />
+          <Route path="/" element={<Home />} />
+        </>
+      )}
+    </Routes>
+  );
+}
+
 export function App() {
   return (
     <BrowserRouter>
@@ -108,4 +104,4 @@ export function App() {
       </QueryClientProvider>
     </BrowserRouter>
   )
-};
+}
