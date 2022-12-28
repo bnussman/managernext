@@ -140,7 +140,7 @@ export function Linodes() {
                 onClick={() => navigate(`/linodes/${linode.id}`)}
                 cursor="pointer"
                 _hover={{ bgColor: 'gray.50' }}
-                _dark={{ _hover: { bgColor: 'gray.900' } }}
+                _dark={{ _hover: { bgColor: "rgb(20, 24, 28)" } }}
               >
                 {columns.filter(column => !column.hidden).map((column) => (
                   <Td key={`${linode.id}-${column.key}`}>{column.transform ? column.transform(linode[column.key]) : String(linode[column.key])}</Td>
