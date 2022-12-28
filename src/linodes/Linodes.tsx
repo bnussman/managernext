@@ -25,7 +25,7 @@ import {
   BoxProps,
 } from "@chakra-ui/react";
 
-const statusMap: Record<Linode["status"], BoxProps["bgColor"]> = {
+export const statusMap: Record<Linode["status"], BoxProps["bgColor"]> = {
   running: 'green.300',
   shutting_down: 'orange.300',
   stopped: 'red.300',
