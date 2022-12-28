@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export function useOrder() {
-  const [orderBy, setOrderBy] = useState<string>();
+  const [orderBy, setOrderBy] = useState<string>('id');
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
 
   const handleChangeOrder = (order: 'asc' | 'desc') => {

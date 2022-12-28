@@ -43,7 +43,7 @@ export function Navigation() {
             variant='outline'
           />
           <MenuList>
-            {entityLandingRoutes.map((entity) => (<MenuItem onClick={() => navigate(`/${entity.toLowerCase()}`)}>{entity}</MenuItem>))}
+            {entityLandingRoutes.map((entity) => (<MenuItem key={entity} onClick={() => navigate(`/${entity.toLowerCase()}`)}>{entity}</MenuItem>))}
           </MenuList>
         </Menu>
         <Heading size="md">Linode Cloud Manager ☁️</Heading>
