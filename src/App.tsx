@@ -5,6 +5,7 @@ import { ChakraProvider, Container } from '@chakra-ui/react'
 import { OAuth, useOAuth } from "./utils/OAuth";
 import { Navigation } from "./Navigation";
 import { theme } from "./utils/theme";
+import { Volumes } from "./volumes/Volumes";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ function Main() {
           {!isLoading && (
             <>
               <Route path="/linodes" element={<Linodes />} />
+              <Route path="/volumes" element={<Volumes />} />
             </>
           )}
         </Routes>

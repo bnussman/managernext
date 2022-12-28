@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 import { ResourcePage } from "@linode/api-v4/lib/types";
 import { Params } from "../utils/types";
 
-export const queryKey = 'profile';
+export const queryKey = 'linode';
 
 export const useLinodesQuery = (params?: Params, filter?: any, options?: UseQueryOptions<ResourcePage<Linode>, AxiosError>) => {
   return useQuery<ResourcePage<Linode>, AxiosError>(

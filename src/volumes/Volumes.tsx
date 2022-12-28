@@ -1,14 +1,14 @@
-import { useLinodesQuery } from "../queries/linodes";
 import { Loading } from "../components/Loading";
 import { Error } from "../components/Error";
 import { Pagination } from "../components/Pagination";
 import { usePagination } from "../utils/usePagination";
 import { useOrder } from "../utils/useOrder";
 import { useColumns } from "../utils/useColumns";
-import { Linode } from "@linode/api-v4";
+import { Volume } from "@linode/api-v4";
 import { SettingsIcon } from "@chakra-ui/icons";
 import { ColumnModal } from "../components/ColumnModal";
 import { Indicator } from "../components/Indicator";
+import { useVolumesQuery } from "../queries/volumes";
 import {
   Button,
   Heading,
@@ -23,29 +23,13 @@ import {
   Thead,
   Tr,
   Text,
-  BoxProps,
 } from "@chakra-ui/react";
 
-const statusMap: Record<Linode["status"], BoxProps["bgColor"]> = {
-  running: 'green.300',
-  shutting_down: 'orange.300',
-  stopped: 'red.300',
-  rebooting: 'orange.300',
-  restoring: 'orange.300',
-  rebuilding: 'orange.300',
-  offline: "gray.400",
-  deleting: "red.300",
-  booting: 'orange.300',
-  migrating: 'orange.300',
-  provisioning: 'orange.300',
-  cloning: 'orange.300',
-}
-
-export function Linodes() {
+export function Volumes() {
   const { page, pageSize, handlePageChange, handlePageSizeChange } = usePagination();
   const { order, orderBy, handleOrderBy } = useOrder();
 
-  const { columns, handleToggleColumnHidden, isOpen, onClose, onOpen } = useColumns<Linode>({
+  const { columns, handleToggleColumnHidden, isOpen, onClose, onOpen } = useColumns<Volume>({
     columns: [
       {
         label: "ID",
@@ -60,21 +44,31 @@ export function Linodes() {
       {
         label: "Status",
         key: 'status',
-        transform(status: Linode['status']) {
-          return (
-            <HStack>
-              <Indicator color={statusMap[status]} />
-              <Text textTransform="capitalize">{status}</Text>
-            </HStack>
-          );
+        filterable: true,
+        transform(status: Volume['status']) {
+          if (status === "active") {
+            return (
+              <HStack>
+                <Indicator color="green.300" />
+                <Text textTransform="capitalize">{status}</Text>
+              </HStack>
+            );
+          }
+          return status;
         },
       },
       {
-        label: "IPv4",
-        key: 'ipv4',
-        transform(value: string[]) {
-          return value[0];
+        label: "Size",
+        key: 'size',
+        transform(size: Volume['size']) {
+          return `${size} GB`;
         },
+        filterable: true,
+      },
+      {
+        label: "Type",
+        key: 'hardware_type',
+        hidden: true,
       },
       {
         label: "Created",
@@ -84,7 +78,7 @@ export function Linodes() {
     ]
   });
 
-  const { data, isLoading, error } = useLinodesQuery(
+  const { data, isLoading, error } = useVolumesQuery(
     { page, page_size: pageSize },
     { '+order': order, '+order_by': orderBy }
   );
@@ -100,10 +94,10 @@ export function Linodes() {
   return (
     <>
       <HStack>
-        <Heading>Linodes</Heading>
+        <Heading>Volumes</Heading>
         <Spacer />
         <IconButton onClick={onOpen} icon={<SettingsIcon />} aria-label="Table Settings" />
-        <Button>Create Linode</Button>
+        <Button>Create Volume</Button>
       </HStack>
       <TableContainer>
         <Table>
