@@ -13,26 +13,32 @@ import {
   useColorMode,
   Heading,
   Flex,
-  useColorModeValue
+  useColorModeValue,
+  MenuDivider
 } from '@chakra-ui/react';
 
 const entityLandingRoutes = [
   "Linodes",
   "Volumes",
-  "Firewalls",
-  "Images",
-  "NodeBalancers",
-  "Kubernetes",
-  "Object Storage",
-  "StackScripts",
-  "Domains",
-  "Databases",
+  // "Firewalls",
+  // "Images",
+  // "NodeBalancers",
+  // "Kubernetes",
+  // "Object Storage",
+  // "StackScripts",
+  // "Domains",
+  // "Databases",
 ];
 
 export function Navigation() {
   const { colorMode, toggleColorMode } = useColorMode();
   const { profile } = useProfile();
   const navigate = useNavigate();
+
+  const onLogout = () => {
+    localStorage.clear();
+    document.location.href = "https://login.linode.com/logout";
+  };
 
   return (
     <Flex h={16} alignItems='center' justifyContent='space-between' px={4} mb={4} bg={useColorModeValue("white", "rgb(20, 24, 28)")} borderBottom="1px" borderBottomColor={useColorModeValue("gray.100", "#32373e")}>
@@ -77,6 +83,8 @@ export function Navigation() {
           <MenuList>
             <MenuItem>Profile</MenuItem>
             <MenuItem>Billing</MenuItem>
+            <MenuDivider />
+            <MenuItem onClick={onLogout}>Logout</MenuItem>
           </MenuList>
         </Menu>
       </HStack>
