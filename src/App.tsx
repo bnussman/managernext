@@ -5,7 +5,7 @@ import { ChakraProvider, Container } from '@chakra-ui/react'
 import { OAuth, useOAuth } from "./utils/OAuth";
 import { Navigation } from "./Navigation";
 import { theme } from "./utils/theme";
-import { Volumes } from "./volumes/Volumes";
+import { LinodeRouter } from "./linodes";
 
 const queryClient = new QueryClient();
 
@@ -20,8 +20,7 @@ function Main() {
           <Route path="/callback" element={<OAuth />} />
           {!isLoading && (
             <>
-              <Route path="/volumes" element={<Volumes />} />
-              <Route path="/linodes" element={<Linodes />} />
+              <Route path="/linodes*" element={<LinodeRouter />} />
               <Route
                 path="*"
                 element={<Navigate to="/linodes" replace />}

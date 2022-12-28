@@ -2,13 +2,12 @@ import { useLinodesQuery } from "../queries/linodes";
 import { Loading } from "../components/Loading";
 import { Error } from "../components/Error";
 import { Pagination } from "../components/Pagination";
-import { usePagination } from "../utils/usePagination";
-import { useOrder } from "../utils/useOrder";
-import { useColumns } from "../utils/useColumns";
 import { Linode } from "@linode/api-v4";
-import { SettingsIcon } from "@chakra-ui/icons";
+import { AddIcon, SettingsIcon } from "@chakra-ui/icons";
 import { ColumnModal } from "../components/ColumnModal";
 import { Indicator } from "../components/Indicator";
+import { useTable } from "../utils/useTable";
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   Heading,
@@ -42,9 +41,23 @@ const statusMap: Record<Linode["status"], BoxProps["bgColor"]> = {
 }
 
 export function Linodes() {
-  const { page, pageSize, handlePageChange, handlePageSizeChange } = usePagination();
-  const { order, orderBy, handleOrderBy } = useOrder();
-  const { columns, handleToggleColumnHidden, isOpen, onClose, onOpen, compact, handleToggleCompact } = useColumns<Linode>({
+  const navigate = useNavigate();
+  const {
+    page,
+    pageSize,
+    handlePageChange,
+    handlePageSizeChange,
+    order,
+    orderBy,
+    handleOrderBy,
+    columns,
+    handleToggleColumnHidden,
+    isOpen,
+    onClose,
+    onOpen,
+    compact,
+    handleToggleCompact
+  } = useTable<Linode>({
     columns: [
       {
         label: "ID",
@@ -99,10 +112,10 @@ export function Linodes() {
   return (
     <>
       <HStack>
-        <Heading>Linodes</Heading>
+        <Heading letterSpacing="tight" size="lg">Linodes</Heading>
         <Spacer />
         <IconButton onClick={onOpen} icon={<SettingsIcon />} aria-label="Table Settings" />
-        <Button>Create Linode</Button>
+        <Button rightIcon={<AddIcon />}>Create Linode</Button>
       </HStack>
       <TableContainer>
         <Table size={compact ? 'sm' : 'md'}>
@@ -122,7 +135,13 @@ export function Linodes() {
           </Thead>
           <Tbody>
             {data.data.map((linode) => (
-              <Tr key={linode.id}>
+              <Tr
+                key={linode.id}
+                onClick={() => navigate(`/linodes/${linode.id}`)}
+                cursor="pointer"
+                _hover={{ bgColor: 'gray.50' }}
+                _dark={{ _hover: { bgColor: 'gray.900' } }}
+              >
                 {columns.filter(column => !column.hidden).map((column) => (
                   <Td key={`${linode.id}-${column.key}`}>{column.transform ? column.transform(linode[column.key]) : String(linode[column.key])}</Td>
                 ))}

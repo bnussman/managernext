@@ -19,7 +19,7 @@ import {
 
 const entityLandingRoutes = [
   "Linodes",
-  "Volumes",
+  // "Volumes",
   // "Firewalls",
   // "Images",
   // "NodeBalancers",

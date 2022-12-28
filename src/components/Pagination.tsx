@@ -118,7 +118,10 @@ export function Pagination({
         </Text>
         <Spacer />
         <HStack>
-          <Select disabled={results <= pageSize} value={pageSize} onChange={(e) => setPageSize(Number(e.target.value))}>
+          <Select
+            value={pageSize}
+            onChange={(e) => setPageSize(Number(e.target.value))}
+          >
             <option value={25}>25</option>
             <option value={50}>50</option>
             <option value={100}>100</option>

@@ -1,19 +1,27 @@
-import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 export function useOrder() {
-  const [orderBy, setOrderBy] = useState<string>('id');
-  const [order, setOrder] = useState<'asc' | 'desc'>('asc');
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const orderBy = searchParams.get('order_by') ?? undefined;
+  const order = searchParams.get('order') ?? undefined;
 
   const handleChangeOrder = (order: 'asc' | 'desc') => {
-    setOrder(order);
+    searchParams.set('order', order)
+    setSearchParams(searchParams);
   };
 
   const handleOrderBy = (key: string) => {
     if (orderBy === key) {
-      setOrder((prev) => prev === 'asc' ? 'desc' : 'asc');
+      searchParams.set("order",  order === 'asc' ? 'desc' : 'asc');
+      searchParams.set("order_by",  key);
+      setSearchParams(searchParams);
     }
-
-    setOrderBy(key);
+    else {
+      searchParams.set("order_by", key);
+      searchParams.set("order", "asc");
+      setSearchParams(searchParams);
+    }
   };
 
   return { order, orderBy, handleChangeOrder, handleOrderBy };

@@ -1,23 +1,23 @@
-import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
-export interface PaginationProps {
-  page: number;
-  pageSize: number;
-  handlePageChange: (v: number) => void;
-  handlePageSizeChange: (v: number) => void;
-}
+export const usePagination = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
 
-export const usePagination = (initialPage: number = 1): PaginationProps => {
-  const [page, setPage] = useState(initialPage);
-  const [pageSize, setPageSize] = useState(25);
+  const queryPage = searchParams.get('page');
+  const page = queryPage ? +queryPage : 1;
+
+  const queryPageSize = searchParams.get('page_size');
+  const pageSize = queryPageSize ? +queryPageSize : 25;
 
   const handlePageSizeChange = (newPageSize: number) => {
-    setPageSize(newPageSize);
-    setPage(1);
+    searchParams.set("page_size", String(newPageSize))
+    searchParams.set("page", "1")
+    setSearchParams(searchParams);
   };
 
   const handlePageChange = (newPage: number) => {
-    setPage(newPage);
+    searchParams.set("page", String(newPage))
+    setSearchParams(searchParams);
   };
 
   return {
