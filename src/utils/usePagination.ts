@@ -17,9 +17,6 @@ export const usePagination = (initialPage: number = 1): PaginationProps => {
   };
 
   const handlePageChange = (newPage: number) => {
-    if (newPage === 0) {
-      return;
-    }
     setPage(newPage);
   };
 
