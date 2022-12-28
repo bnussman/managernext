@@ -34,16 +34,16 @@ export const theme = extendTheme({
         },
       })
     },
-    Table: {
-      parts: ['th', 'td'],
-      baseStyle: {
-        th: {
-          border: 'none !important',
-        },
-        td: {
-          border: 'none !important',
-        },
-      },
-    },
+    // Table: {
+    //   parts: ['th', 'td'],
+    //   baseStyle: {
+    //     th: {
+    //       border: 'none !important',
+    //     },
+    //     td: {
+    //       border: 'none !important',
+    //     },
+    //   },
+    // },
   },
 });

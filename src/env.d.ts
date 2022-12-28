@@ -2,7 +2,7 @@
 
 interface ImportMetaEnv {
   readonly VITE_REDIRECT_URL: string
-  // more env variables...
+  readonly VITE_CLIENT_ID: string
 }
 
 interface ImportMeta {
