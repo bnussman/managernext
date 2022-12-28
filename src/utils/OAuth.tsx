@@ -1,7 +1,7 @@
 import { setToken } from "@linode/api-v4";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { authorizeUrl, clientId } from "./constants";
+import { CLIENT_ID, LOGIN_URL, REDIRECT_URL, SCOPE } from "./constants";
 
 export function OAuth() {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ export function OAuth() {
     setTimeout(() => {
       localStorage.removeItem('expires');
       localStorage.removeItem('token');
-      window.location.href = encodeURI(`${authorizeUrl}?response_type=token&client_id=${clientId}&state=xyz&redirect_uri=http://localhost:5173/callback&scope=*`);
+      window.location.href = encodeURI(`${LOGIN_URL}?response_type=token&client_id=${CLIENT_ID}&state=xyz&redirect_uri=${REDIRECT_URL}&scope=${SCOPE}`);
     }, expiresIn);
 
     // Store token and expire time in localstorage
@@ -64,7 +64,7 @@ export function useOAuth() {
       setTimeout(() => {
         localStorage.removeItem('expires');
         localStorage.removeItem('token');
-        window.location.href = encodeURI(`${authorizeUrl}?response_type=token&client_id=${clientId}&state=xyz&redirect_uri=http://localhost:5173/callback&scope=*`);
+        window.location.href = encodeURI(`${LOGIN_URL}?response_type=token&client_id=${CLIENT_ID}&state=xyz&redirect_uri=${REDIRECT_URL}&scope=${SCOPE}`);
       }, expiresAt - Date.now());
 
       // Set the @linode/api-v4 token and render the app
@@ -74,7 +74,7 @@ export function useOAuth() {
     }
 
     // if we have mde it here, we need to authenticate
-    window.location.href = encodeURI(`${authorizeUrl}?response_type=token&client_id=${clientId}&state=xyz&redirect_uri=http://localhost:5173/callback&scope=*`);
+    window.location.href = encodeURI(`${LOGIN_URL}?response_type=token&client_id=${CLIENT_ID}&state=xyz&redirect_uri=${REDIRECT_URL}&scope=${SCOPE}`);
   }, []);
 
   return { isLoading };

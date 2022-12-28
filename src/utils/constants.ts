@@ -1,9 +1,9 @@
-export const authorizeUrl = "https://login.linode.com/oauth/authorize";
+export const LOGIN_URL = "https://login.linode.com/oauth/authorize";
 
-export const clientId = "1228ce081a630e7919ef";
+export const CLIENT_ID = "1228ce081a630e7919ef";
 
-export const redirectUri = `http://localhost:5173/callback`;
+export const REDIRECT_URL = import.meta.env.VITE_REDIRECT_URL ?? `http://localhost:5173/callback`;
 
-export const scope = "*";
+export const SCOPE = "*";
 
-export const responseType = "token";
+export const RESPONSE_TYPE = "token";
