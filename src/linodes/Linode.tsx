@@ -5,6 +5,7 @@ import { Error } from '../components/Error';
 import { useLinodeQuery } from '../queries/linodes';
 import { Indicator } from '../components/Indicator';
 import { statusMap } from './Linodes';
+import { Stats } from './Stats';
 
 export function Linode() {
   const { id } = useParams();
@@ -65,7 +66,7 @@ export function Linode() {
               </WrapItem>
               <WrapItem>
                 <Box>
-                  <Heading size="sm">IPv6s</Heading>
+                  <Heading size="sm">IPv6</Heading>
                   <UnorderedList>
                     <ListItem>{linode.ipv6}</ListItem>
                   </UnorderedList>
@@ -84,7 +85,7 @@ export function Linode() {
         </TabList>
         <TabPanels>
           <TabPanel>
-            Stats
+            <Stats id={linode.id} />
           </TabPanel>
           <TabPanel>
             Backups
