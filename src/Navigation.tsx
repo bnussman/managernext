@@ -1,5 +1,6 @@
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { getGravatar, useProfile } from './queries/profile';
+import { useNavigate } from 'react-router-dom';
 import {
   Avatar,
   HStack,
@@ -9,12 +10,27 @@ import {
   IconButton,
   MenuItem,
   Button,
-  useColorMode
+  useColorMode,
+  Heading
 } from '@chakra-ui/react';
+
+const entityLandingRoutes = [
+  "Linodes",
+  "Volumes",
+  "Firewalls",
+  "Images",
+  "NodeBalancers",
+  "Kubernetes",
+  "Object Storage",
+  "StackScripts",
+  "Domains",
+  "Databases",
+];
 
 export function Navigation() {
   const { profile } = useProfile();
   const { colorMode, toggleColorMode } = useColorMode();
+  const navigate = useNavigate();
 
   return (
     <HStack p={4} justifyContent="space-between">
@@ -27,18 +43,10 @@ export function Navigation() {
             variant='outline'
           />
           <MenuList>
-            <MenuItem>Linodes</MenuItem>
-            <MenuItem>Volumes</MenuItem>
-            <MenuItem>Firewalls</MenuItem>
-            <MenuItem>Images</MenuItem>
-            <MenuItem>NodeBalancers</MenuItem>
-            <MenuItem>Kubernetes</MenuItem>
-            <MenuItem>Object Storage</MenuItem>
-            <MenuItem>StackScripts</MenuItem>
-            <MenuItem>Domains</MenuItem>
-            <MenuItem>Databases</MenuItem>
+            {entityLandingRoutes.map((entity) => (<MenuItem onClick={() => navigate(`/${entity.toLowerCase()}`)}>{entity}</MenuItem>))}
           </MenuList>
         </Menu>
+        <Heading size="md">Linode Cloud Manager ☁️</Heading>
       </HStack>
       <HStack>
         <Button onClick={toggleColorMode}>{colorMode === 'light' ? "🌑" : "☀️"}</Button>

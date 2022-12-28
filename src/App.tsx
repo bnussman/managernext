@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Home } from "./Home";
 import { Linodes } from "./linodes/Linodes";
 import { ChakraProvider, Container } from '@chakra-ui/react'
 import { OAuth, useOAuth } from "./utils/OAuth";
@@ -21,7 +20,6 @@ function Main() {
           {!isLoading && (
             <>
               <Route path="/linodes" element={<Linodes />} />
-              <Route path="/" element={<Home />} />
             </>
           )}
         </Routes>
