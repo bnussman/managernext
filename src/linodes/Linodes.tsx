@@ -44,8 +44,7 @@ const statusMap: Record<Linode["status"], BoxProps["bgColor"]> = {
 export function Linodes() {
   const { page, pageSize, handlePageChange, handlePageSizeChange } = usePagination();
   const { order, orderBy, handleOrderBy } = useOrder();
-
-  const { columns, handleToggleColumnHidden, isOpen, onClose, onOpen } = useColumns<Linode>({
+  const { columns, handleToggleColumnHidden, isOpen, onClose, onOpen, compact, handleToggleCompact } = useColumns<Linode>({
     columns: [
       {
         label: "ID",
@@ -106,7 +105,7 @@ export function Linodes() {
         <Button>Create Linode</Button>
       </HStack>
       <TableContainer>
-        <Table>
+        <Table size={compact ? 'sm' : 'md'}>
           <Thead>
             <Tr>
               {columns.filter(column => !column.hidden).map((column) => (
@@ -143,7 +142,9 @@ export function Linodes() {
         isOpen={isOpen}
         onClose={onClose}
         columns={columns}
+        compact={compact}
         handleToggleColumnHidden={handleToggleColumnHidden}
+        handleToggleCompact={handleToggleCompact}
       />
     </>
   );

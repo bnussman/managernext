@@ -40,7 +40,7 @@ export function Volumes() {
   const { page, pageSize, handlePageChange, handlePageSizeChange } = usePagination();
   const { order, orderBy, handleOrderBy } = useOrder();
 
-  const { columns, handleToggleColumnHidden, isOpen, onClose, onOpen } = useColumns<Volume>({
+  const { columns, handleToggleColumnHidden, isOpen, onClose, onOpen, compact, handleToggleCompact } = useColumns<Volume>({
     columns: [
       {
         label: "ID",
@@ -108,7 +108,7 @@ export function Volumes() {
         <Button>Create Volume</Button>
       </HStack>
       <TableContainer>
-        <Table>
+        <Table size={compact ? 'sm' : 'md'}>
           <Thead>
             <Tr>
               {columns.filter(column => !column.hidden).map((column) => (
@@ -142,6 +142,8 @@ export function Volumes() {
         results={data?.results}
       />
       <ColumnModal
+        compact={compact}
+        handleToggleCompact={handleToggleCompact}
         isOpen={isOpen}
         onClose={onClose}
         columns={columns}
