@@ -30,6 +30,7 @@ const statusMap: Record<Volume["status"], BoxProps["bgColor"]> = {
   active: 'green.300',
   creating: 'orange.300',
   resizing: 'orange.300',
+  migrating: 'orange.300',
   deleted: 'red.300',
   deleting: 'red.300',
   contact_support: 'red.300',
