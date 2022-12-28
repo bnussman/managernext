@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Linodes } from "./linodes/Linodes";
 import { ChakraProvider, Container } from '@chakra-ui/react'
@@ -20,8 +20,12 @@ function Main() {
           <Route path="/callback" element={<OAuth />} />
           {!isLoading && (
             <>
-              <Route path="/linodes" element={<Linodes />} />
               <Route path="/volumes" element={<Volumes />} />
+              <Route path="/linodes" element={<Linodes />} />
+              <Route
+                path="*"
+                element={<Navigate to="/linodes" replace />}
+              />
             </>
           )}
         </Routes>

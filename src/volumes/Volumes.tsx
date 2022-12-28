@@ -23,7 +23,17 @@ import {
   Thead,
   Tr,
   Text,
+  BoxProps,
 } from "@chakra-ui/react";
+
+const statusMap: Record<Volume["status"], BoxProps["bgColor"]> = {
+  active: 'green.300',
+  creating: 'orange.300',
+  resizing: 'orange.300',
+  deleted: 'red.300',
+  deleting: 'red.300',
+  contact_support: 'red.300',
+}
 
 export function Volumes() {
   const { page, pageSize, handlePageChange, handlePageSizeChange } = usePagination();
@@ -46,15 +56,12 @@ export function Volumes() {
         key: 'status',
         filterable: true,
         transform(status: Volume['status']) {
-          if (status === "active") {
-            return (
-              <HStack>
-                <Indicator color="green.300" />
-                <Text textTransform="capitalize">{status}</Text>
-              </HStack>
-            );
-          }
-          return status;
+          return (
+            <HStack>
+              <Indicator color={statusMap[status]} />
+              <Text textTransform="capitalize">{status}</Text>
+            </HStack>
+          );
         },
       },
       {
