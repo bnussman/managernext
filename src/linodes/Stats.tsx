@@ -16,7 +16,7 @@ export function Stats({ id }: Props) {
   }
 
   if (error) {
-    return <Error />;
+    return <Error title="Can't load Linode stats" />;
   }
 
   const margin = {
@@ -47,7 +47,7 @@ export function Stats({ id }: Props) {
           >
             {/* <YAxis mirror /> */}
             <Tooltip content={<CUPTooltip />} wrapperStyle={{ outline: "none" }} />
-            <Area type="monotone" dataKey="value" stroke="#8884d8" fill="#8884d8" />
+            <Area type="monotone" dataKey="value" stroke="rgb(104, 211, 145)" fill="rgb(104, 211, 145)" />
           </AreaChart>
         </ResponsiveContainer>
       </Card>
@@ -61,7 +61,7 @@ export function Stats({ id }: Props) {
           >
             {/* <YAxis mirror /> */}
             <Tooltip content={<DiskTooltip />} wrapperStyle={{ outline: "none" }} />
-            <Area type="monotone" dataKey="value" stroke="#8884d8" fill="#8884d8" />
+            <Area type="monotone" dataKey="value" stroke="rgb(104, 211, 145)" fill="rgb(104, 211, 145)" />
           </AreaChart>
         </ResponsiveContainer>
       </Card>
@@ -76,10 +76,10 @@ export function Stats({ id }: Props) {
             {/* <YAxis mirror /> */}
             <XAxis dataKey="time" scale="time" hide />
             <Tooltip content={<NetworkTooltip />} wrapperStyle={{ outline: "none" }} />
-            <Area type="monotone" dataKey="in" stroke="#8884d8" fill="#8884d8" />
-            <Area type="monotone" dataKey="out" stroke="#9a8ff5" fill="#9a8ff5" />
-            <Area type="monotone" dataKey="private_in" stroke="#ec79d8" fill="#ec79d8" />
-            <Area type="monotone" dataKey="private_out" stroke="#ff6c9f" fill="#ff6c9f" />
+            <Area type="monotone" dataKey="in" stroke="rgb(104, 211, 145)" fill="rgb(104, 211, 145)" />
+            <Area type="monotone" dataKey="out" stroke="#70d157" fill="#70d157" />
+            <Area type="monotone" dataKey="private_in" stroke="#a5c729" fill="#a5c729" />
+            <Area type="monotone" dataKey="private_out" stroke="#d4ba00" fill="#d4ba00" />
           </AreaChart>
         </ResponsiveContainer>
       </Card>

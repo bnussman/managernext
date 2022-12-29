@@ -41,7 +41,22 @@ export function Navigation() {
   };
 
   return (
-    <Flex h={16} alignItems='center' justifyContent='space-between' px={4} mb={4} bg={useColorModeValue("white", "rgb(20, 24, 28)")} borderBottom="1px" borderBottomColor={useColorModeValue("gray.100", "#32373e")}>
+    <Flex
+      h={16}
+      alignItems='center'
+      justifyContent='space-between'
+      px={4}
+      mb={4}
+      bg={useColorModeValue("rgba(255, 255, 255, 0.8)", "rgb(20, 24, 28, 0.9)")}
+      borderBottom="1px"
+      borderBottomColor={useColorModeValue("gray.100", "#32373e")}
+      position="fixed"
+      w="full"
+      zIndex={999}
+      css={{
+        backdropFilter: 'blur(2px)',
+      }}
+    >
       <HStack spacing={4} alignItems='center'>
         <Heading
           as={Link}

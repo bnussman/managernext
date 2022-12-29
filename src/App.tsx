@@ -1,6 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Linodes } from "./linodes/Linodes";
 import { ChakraProvider, Container } from '@chakra-ui/react'
 import { OAuth, useOAuth } from "./utils/OAuth";
 import { Navigation } from "./Navigation";
@@ -15,7 +14,7 @@ function Main() {
   return (
     <>
       {!isLoading && <Navigation />}
-      <Container maxW="container.xl">
+      <Container maxW="container.xl" pt={20}>
         <Routes>
           <Route path="/callback" element={<OAuth />} />
           {!isLoading && (

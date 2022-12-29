@@ -16,7 +16,7 @@ export function CaptureSnapshotModal({ isOpen, onClose, linodeId }: Props) {
   const onSubmit = () => {
     mutateAsync({ label }).then(() => {
       onClose();
-      toast({ title: 'Sucessfully started snapshot capture.'});
+      toast({ title: 'Sucessfully started snapshot capture.', status: "success" });
     });
   };
 

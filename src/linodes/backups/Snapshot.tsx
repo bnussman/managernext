@@ -35,7 +35,7 @@ export function Snapshot({ id }: Props) {
           {snapshots.in_progress !== null && (
             <Tag>
               <HStack>
-                <Text>Snapshot in progress</Text>
+                <Text>In progress</Text>
                 <Indicator color="orange.300" />
               </HStack>
             </Tag>

@@ -64,8 +64,6 @@ export const useCaptureSnapshotMutation = (id: number) => {
             return undefined;
           }
 
-          console.log(data);
-
           return {
             automatic: oldData.automatic,
             snapshot: {
