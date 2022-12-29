@@ -7,7 +7,7 @@ import { Navigation } from "./Navigation";
 import { theme } from "./utils/theme";
 import { LinodeRouter } from "./linodes";
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 function Main() {
   const { isLoading } = useOAuth();
@@ -20,7 +20,7 @@ function Main() {
           <Route path="/callback" element={<OAuth />} />
           {!isLoading && (
             <>
-              <Route path="/linodes*" element={<LinodeRouter />} />
+              <Route path="/linodes/*" element={<LinodeRouter />} />
               <Route
                 path="*"
                 element={<Navigate to="/linodes" replace />}

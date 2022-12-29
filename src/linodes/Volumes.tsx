@@ -94,7 +94,6 @@ export function Volumes({ id }: Props) {
     return <Error title="Unable to load your Volumes" />
   }
 
-
   return (
     <Card p={4} variant="outline">
       <TableContainer>

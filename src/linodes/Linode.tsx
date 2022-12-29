@@ -8,6 +8,7 @@ import { statusMap } from './Linodes';
 import { Stats } from './Stats';
 import { Volumes } from './Volumes';
 import { Disks } from './Disks';
+import { Backups } from './backups/Backups';
 
 const tabs = [
   "Stats",
@@ -36,7 +37,7 @@ export function Linode() {
   }
 
   if (error) {
-    return <Error />
+    return <Error title="Unable to load your Linodes" />
   }
 
   return (
@@ -116,7 +117,7 @@ export function Linode() {
             <Volumes id={linode.id} />
           </TabPanel>
           <TabPanel>
-            Backups
+            <Backups id={linode.id} />
           </TabPanel>
           <TabPanel>
             Configs

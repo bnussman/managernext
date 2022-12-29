@@ -1,8 +1,9 @@
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { Disk, getLinode, getLinodeDisks, getLinodes, getLinodeStats, getLinodeVolumes, Linode, Stats, Volume } from "@linode/api-v4";
+import { useMutation, useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { Disk, getLinode, getLinodeBackups, getLinodeDisks, getLinodes, getLinodeStats, getLinodeVolumes, Linode, LinodeBackup, LinodeBackupsResponse, Stats, takeSnapshot, Volume } from "@linode/api-v4";
 import { AxiosError } from "axios";
 import { ResourcePage } from "@linode/api-v4/lib/types";
 import { Params } from "../utils/types";
+import { queryClient } from "../App";
 
 export const queryKey = 'linode';
 
@@ -43,5 +44,37 @@ export const useLinodeVolumesQuery = (id: number, params?: Params, filter?: any)
     [queryKey, id, 'volumes', params, filter],
     () => getLinodeVolumes(id, params, filter),
     { keepPreviousData: true }
+  );
+};
+
+export const useLinodeBackupsQuery = (id: number) => {
+  return useQuery<LinodeBackupsResponse, AxiosError>(
+    [queryKey, id, 'backups'],
+    () => getLinodeBackups(id)
+  );
+};
+
+export const useCaptureSnapshotMutation = (id: number) => {
+  return useMutation<LinodeBackup, AxiosError, { label: string }>(
+    ({ label }) => takeSnapshot(id, label),
+    {
+      onSuccess(data) {
+        queryClient.setQueryData<LinodeBackupsResponse>([queryKey, id, 'backups'], (oldData) => {
+          if (oldData === undefined) {
+            return undefined;
+          }
+
+          console.log(data);
+
+          return {
+            automatic: oldData.automatic,
+            snapshot: {
+              current: oldData.snapshot.current,
+              in_progress: data
+            }
+          };
+        });
+      },
+    }
   );
 };
