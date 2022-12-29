@@ -82,6 +82,11 @@ export function Linodes() {
         },
       },
       {
+        label: "Type",
+        key: 'type',
+        hidden: true,
+      },
+      {
         label: "IPv4",
         key: 'ipv4',
         transform(value: string[]) {
