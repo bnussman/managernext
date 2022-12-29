@@ -50,7 +50,6 @@ export function Linode() {
           <Stack spacing={4}>
             <HStack>
               <Heading size="md" isTruncated>{linode.label}</Heading>
-              <Tag>{linode.id}</Tag>
               <Spacer />
               <Text fontWeight="extrabold" textTransform="capitalize">{linode.status}</Text>
               <Indicator color={statusMap[linode.status]} />
@@ -100,15 +99,17 @@ export function Linode() {
         </CardBody>
       </Card>
       <Tabs colorScheme="gray" index={tabIndex === -1 ? 0 : tabIndex} onChange={onTabChange} isLazy>
-        <TabList>
-          <Tab>Stats</Tab>
-          <Tab>Disks</Tab>
-          <Tab>Volumes</Tab>
-          <Tab>Backups</Tab>
-          <Tab>Configurations</Tab>
-          <Tab>Network</Tab>
-          <Tab>Settings</Tab>
-        </TabList>
+        <Box overflowX="auto">
+          <TabList>
+            <Tab>Stats</Tab>
+            <Tab>Disks</Tab>
+            <Tab>Volumes</Tab>
+            <Tab>Backups</Tab>
+            <Tab>Configurations</Tab>
+            <Tab>Network</Tab>
+            <Tab>Settings</Tab>
+          </TabList>
+        </Box>
         <TabPanels>
           <TabPanel>
             <Stats id={linode.id} />

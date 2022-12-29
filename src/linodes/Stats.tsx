@@ -37,7 +37,7 @@ export function Stats({ id }: Props) {
   }));
 
   return (
-    <Stack w="100%" h={800} spacing={4}>
+    <Stack w="100%" spacing={4}>
       <Card h="300" variant="outline">
         <Heading p={4} size="lg" fontWeight="extrabold" letterSpacing="tighter" position="absolute" zIndex={10}>CPU</Heading>
         <ResponsiveContainer width="100%" height="100%">
