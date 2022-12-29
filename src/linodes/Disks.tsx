@@ -12,7 +12,7 @@ interface Props {
   id: number;
 }
 
-export const diskStatusMap: Record<Disk["status"], BoxProps["bgColor"]> = {
+const diskStatusMap: Record<Disk["status"], BoxProps["bgColor"]> = {
   offline: "gray.400",
   booting: "orange.400",
   provisioning: "orange.400",

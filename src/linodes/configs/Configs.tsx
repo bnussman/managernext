@@ -1,26 +1,14 @@
 import { useLinodeConfigsQuery } from "../../queries/linodes";
-import { BoxProps, Card, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import { Card, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import { Loading } from '../../components/Loading';
 import { Error } from '../../components/Error';
 import { useTable } from "../../utils/useTable";
-import { Config, Disk } from "@linode/api-v4";
+import { Config } from "@linode/api-v4";
 import { ColumnModal } from "../../components/ColumnModal";
 import { Pagination } from "../../components/Pagination";
 
 interface Props {
   id: number;
-}
-
-export const diskStatusMap: Record<Disk["status"], BoxProps["bgColor"]> = {
-  offline: "gray.400",
-  booting: "orange.400",
-  provisioning: "orange.400",
-  migrating: "orange.400",
-  rebooting: "orange.400",
-  shutting_down: "red.400",
-  running: "green.400",
-  ready: "green.400",
-  deleting: "red.400",
 }
 
 export function Configs({ id }: Props) {
