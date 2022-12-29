@@ -3,7 +3,7 @@ import { Loading } from "../components/Loading";
 import { Error } from "../components/Error";
 import { Pagination } from "../components/Pagination";
 import { Linode } from "@linode/api-v4";
-import { AddIcon, SettingsIcon } from "@chakra-ui/icons";
+import { AddIcon, HamburgerIcon, SettingsIcon } from "@chakra-ui/icons";
 import { ColumnModal } from "../components/ColumnModal";
 import { Indicator } from "../components/Indicator";
 import { useTable } from "../utils/useTable";
@@ -23,6 +23,11 @@ import {
   Tr,
   Text,
   BoxProps,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Portal,
 } from "@chakra-ui/react";
 
 export const statusMap: Record<Linode["status"], BoxProps["bgColor"]> = {
@@ -72,7 +77,7 @@ export function Linodes() {
       {
         label: "Status",
         key: 'status',
-        transform(status: Linode['status']) {
+        transform({ status }) {
           return (
             <HStack>
               <Indicator color={statusMap[status]} />
@@ -89,14 +94,41 @@ export function Linodes() {
       {
         label: "IPv4",
         key: 'ipv4',
-        transform(value: string[]) {
-          return value[0];
+        transform({ ipv4 }) {
+          return ipv4[0];
         },
       },
       {
         label: "Created",
         key: 'created',
         filterable: true
+      },
+      {
+        label: "Actions",
+        key: 'actions',
+        tdProps: { p: 0, textAlign: 'center' },
+        hideLabel: true,
+        transform(linode) {
+          return (
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                aria-label='Options'
+                icon={<HamburgerIcon />}
+                size="sm"
+                p={0}
+                onClick={e => e.stopPropagation()}
+              />
+              <Portal>
+                <MenuList>
+                  <MenuItem onClick={e => e.stopPropagation()}>
+                    {linode.status === "running" ? "Shut Down" : "Power On"}
+                  </MenuItem>
+                </MenuList>
+              </Portal>
+              </Menu>
+          );
+        }
       },
     ]
   });
@@ -132,8 +164,8 @@ export function Linodes() {
                   onClick={column.filterable ? () => handleOrderBy(column.key) : undefined}
                   cursor={column.filterable ? "pointer" : undefined}
                 >
-                  {column.label}
-                  {orderBy === column.key && (order === 'asc' ? " ⬆️" : " ⬇️")}
+                  {column.hideLabel ? null : column.label}
+                  {column.key && orderBy === column.key ? (order === 'asc' ? " ⬆️" : " ⬇️"): null}
                 </Th>
               ))}
             </Tr>
@@ -148,7 +180,7 @@ export function Linodes() {
                 _dark={{ _hover: { bgColor: "rgb(20, 24, 28)" } }}
               >
                 {columns.filter(column => !column.hidden).map((column) => (
-                  <Td key={`${linode.id}-${column.key}`}>{column.transform ? column.transform(linode[column.key]) : String(linode[column.key])}</Td>
+                  <Td {...column.tdProps} key={`${linode.id}-${column.key}`}>{column.transform ? column.transform(linode) : String(linode[column.key as keyof Linode])}</Td>
                 ))}
               </Tr>
             ))}

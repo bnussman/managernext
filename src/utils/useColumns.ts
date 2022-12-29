@@ -1,23 +1,20 @@
-import { useDisclosure } from "@chakra-ui/react";
+import { TableCellProps, useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
 
 export interface Column<T> {
   label: string;
-  key: keyof T;
+  key: keyof T | string;
   hidden?: boolean;
   filterable?: boolean;
-  transform?: (value: any) => string | React.ReactNode;
+  transform?: (entity: T) => string | React.ReactNode;
+  tdProps?: TableCellProps;
+  hideLabel?: boolean;
 }
 
 export function useColumns<T>(props: { columns: Column<T>[] }) {
   const [columns, setColumns] = useState<Column<T>[]>(props.columns);
-  const [compact, setCompact] = useState(false);
 
   const dialog = useDisclosure();
-
-  const handleToggleCompact = () => {
-    setCompact(compact => !compact);
-  };
 
   const handleToggleColumnHidden = (key: string) => {
     setColumns((prev) => {
@@ -28,5 +25,5 @@ export function useColumns<T>(props: { columns: Column<T>[] }) {
     });
   };
 
-  return { columns, handleToggleColumnHidden, compact, handleToggleCompact, ...dialog };
+  return { columns, handleToggleColumnHidden, ...dialog };
 }

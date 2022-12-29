@@ -120,7 +120,6 @@ export function Pagination({
         </Text>
         <Spacer />
         <HStack>
-          <IconButton onClick={onSettingsOpen} icon={<SettingsIcon />} aria-label="Table Settings" />
           <Select
             value={pageSize}
             onChange={(e) => setPageSize(Number(e.target.value))}
@@ -130,6 +129,7 @@ export function Pagination({
             <option value={100}>100</option>
             <option value={500}>500</option>
           </Select>
+          <IconButton onClick={onSettingsOpen} icon={<SettingsIcon />} aria-label="Table Settings" />
           <ButtonGroup isAttached>
             <DirectionButton direction='left' disabled={page === 1} onClick={decrement} />
             {
