@@ -1,26 +1,5 @@
 # managernext
 
-The goal here is to create a lightweight client for managing your Linode account and entities.
-Essentially this may become a lightweight version of [Cloud Manager](https://github.com/linode/manager/)
+This project may one day be a [Linode Cloud Manager](https://github.com/linode/manager/) alternative.
 
-# Develop Locally
-
-Clone (or consider a fork)
-```
-git clone git@github.com:bnussman/managernext.git
-```
-
-Go into the repos directory
-```
-cd managernext
-```
-
-Install depencencies
-```
-pnpm i
-```
-
-Run development server
-```
-pnpm dev
-```
+![managernext pages dev_linodes_36165521 (1)](https://user-images.githubusercontent.com/6440455/209909977-b86ee434-dbe2-4d2b-afee-4c0f73ac2607.png)
