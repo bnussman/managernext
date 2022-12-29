@@ -3,11 +3,12 @@ import { Loading } from "../components/Loading";
 import { Error } from "../components/Error";
 import { Pagination } from "../components/Pagination";
 import { Linode } from "@linode/api-v4";
-import { AddIcon, HamburgerIcon, SettingsIcon } from "@chakra-ui/icons";
+import { AddIcon, SettingsIcon } from "@chakra-ui/icons";
 import { ColumnModal } from "../components/ColumnModal";
 import { Indicator } from "../components/Indicator";
 import { useTable } from "../utils/useTable";
 import { useNavigate } from "react-router-dom";
+import { Menu } from "./Menu";
 import {
   Button,
   Heading,
@@ -23,11 +24,6 @@ import {
   Tr,
   Text,
   BoxProps,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Portal,
 } from "@chakra-ui/react";
 
 export const statusMap: Record<Linode["status"], BoxProps["bgColor"]> = {
@@ -81,7 +77,7 @@ export function Linodes() {
           return (
             <HStack>
               <Indicator color={statusMap[status]} />
-              <Text textTransform="capitalize">{status}</Text>
+              <Text textTransform="capitalize">{status.replaceAll('_', ' ')}</Text>
             </HStack>
           );
         },
@@ -109,23 +105,7 @@ export function Linodes() {
         hideLabel: true,
         transform(linode, compact) {
           return (
-            <Menu>
-              <MenuButton
-                as={IconButton}
-                aria-label='Options'
-                icon={<HamburgerIcon />}
-                size={compact ? "xs" : "sm"}
-                p={0}
-                onClick={e => e.stopPropagation()}
-              />
-              <Portal>
-                <MenuList>
-                  <MenuItem onClick={e => e.stopPropagation()}>
-                    {linode.status === "running" ? "Shut Down" : "Power On"}
-                  </MenuItem>
-                </MenuList>
-              </Portal>
-              </Menu>
+            <Menu linode={linode} compact={compact} />
           );
         }
       },
@@ -159,7 +139,7 @@ export function Linodes() {
             <Tr>
               {columns.filter(column => !column.hidden).map((column) => (
                 <Th
-                  key={column.key}
+                  key={column.label}
                   onClick={column.filterable ? () => handleOrderBy(column.key) : undefined}
                   cursor={column.filterable ? "pointer" : undefined}
                 >

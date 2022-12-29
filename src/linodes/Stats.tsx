@@ -1,14 +1,15 @@
-import { AreaChart, Area, YAxis, Tooltip, ResponsiveContainer, TooltipProps, XAxis } from 'recharts';
+import { AreaChart, Area, Tooltip, ResponsiveContainer, TooltipProps, XAxis } from 'recharts';
 import { Loading } from '../components/Loading';
 import { Error } from '../components/Error';
 import { useLinodeStatsQuery } from '../queries/linodes';
 import { Card, Heading, HStack, Stack, Text } from '@chakra-ui/react';
+import { memo } from 'react';
 
 interface Props {
   id: number;
 }
 
-export function Stats({ id }: Props) {
+export const Stats = memo(({ id }: Props) => {
   const { data: stats, isLoading, error } = useLinodeStatsQuery(id);
 
   if (isLoading) {
@@ -85,7 +86,7 @@ export function Stats({ id }: Props) {
       </Card>
     </Stack>
   )
-}
+});
 
 const NetworkTooltip = ({ active, payload, label }: TooltipProps<any, any>) => {
   if (active && payload && payload.length) {

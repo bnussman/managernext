@@ -1,5 +1,5 @@
 import { useMutation, useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { Config, Disk, getLinode, getLinodeBackups, getLinodeConfigs, getLinodeDisks, getLinodeIPs, getLinodes, getLinodeStats, getLinodeVolumes, Linode, LinodeBackup, LinodeBackupsResponse, LinodeIPsResponse, Stats, takeSnapshot, updateLinode, Volume } from "@linode/api-v4";
+import { Config, Disk, getLinode, getLinodeBackups, getLinodeConfigs, getLinodeDisks, getLinodeIPs, getLinodes, getLinodeStats, getLinodeVolumes, Linode, LinodeBackup, LinodeBackupsResponse, linodeBoot, LinodeIPsResponse, linodeShutdown, Stats, takeSnapshot, updateLinode, Volume } from "@linode/api-v4";
 import { AxiosError } from "axios";
 import { ResourcePage } from "@linode/api-v4/lib/types";
 import { Params } from "../utils/types";
@@ -100,6 +100,43 @@ export const useLinodeMutation = (id: number) => {
         queryClient.setQueryData<Linode>([queryKey, id], data);
         queryClient.invalidateQueries([queryKey, "paginated"]);
       }
+    }
+  );
+};
+
+
+export const useLinodeShutdownMutation = (id: number) => {
+  return useMutation<{}, AxiosError>(
+    () => linodeShutdown(id),
+    {
+      onSuccess() {
+        queryClient.invalidateQueries([queryKey, "paginated"]);
+        queryClient.setQueryData<Linode>([queryKey, id], (oldData) => {
+          if (oldData === undefined) {
+            return undefined;
+          }
+
+          return { ...oldData, status: 'shutting_down' };
+        });
+      },
+    }
+  );
+};
+
+export const useLinodeBootMutation = (id: number) => {
+  return useMutation<{}, AxiosError>(
+    () => linodeBoot(id),
+    {
+      onSuccess() {
+        queryClient.invalidateQueries([queryKey, "paginated"]);
+        queryClient.setQueryData<Linode>([queryKey, id], (oldData) => {
+          if (oldData === undefined) {
+            return undefined;
+          }
+
+          return { ...oldData, status: 'booting' };
+        });
+      },
     }
   );
 };

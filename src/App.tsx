@@ -5,11 +5,14 @@ import { OAuth, useOAuth } from "./utils/OAuth";
 import { Navigation } from "./Navigation";
 import { theme } from "./utils/theme";
 import { LinodeRouter } from "./linodes";
+import { useEventsPollingQuery } from "./queries/events";
 
 export const queryClient = new QueryClient();
 
 function Main() {
   const { isLoading } = useOAuth();
+  
+  useEventsPollingQuery();
 
   return (
     <>

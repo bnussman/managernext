@@ -52,7 +52,7 @@ export function Linode() {
             <HStack>
               <Heading size="md" isTruncated>{linode.label}</Heading>
               <Spacer />
-              <Text fontWeight="extrabold" textTransform="capitalize">{linode.status}</Text>
+              <Text fontWeight="extrabold" textTransform="capitalize">{linode.status.replaceAll("_", " ")}</Text>
               <Indicator color={statusMap[linode.status]} />
             </HStack>
             <Wrap spacingX={16}>

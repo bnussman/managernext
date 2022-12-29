@@ -44,7 +44,7 @@ export function ColumnModal({ isOpen, onClose, columns, handleToggleColumnHidden
             <Box>
               <Heading letterSpacing="sm" size="md">Columns</Heading>
               {columns.map((column) => (
-                <HStack key={column.key as string}>
+                <HStack key={column.label}>
                   <Text>{column.label}</Text>
                   <Spacer />
                   <Switch onChange={() => handleToggleColumnHidden(column.key as string)} isChecked={!column.hidden} />
