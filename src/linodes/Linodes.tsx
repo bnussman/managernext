@@ -106,7 +106,7 @@ export function Linodes() {
   }
 
   if (error) {
-    return <Error />;
+    return <Error title="Unable to load your Linodes" />;
   }
 
   return (
