@@ -5,10 +5,11 @@ This project may one day be a [Linode Cloud Manager](https://github.com/linode/m
 > **Warning**: This project is a work in progress and may never be completed
 
 ## Project Goals 🥅
-- Fast (development and useage)
+- Fast (development and usage)
 - Simple
 - Maintainable
-- Work well for large accounts
+- Work well for large account at scale
+- Near feature parity with [Cloud Manager](https://github.com/linode/manager/) with **much** less code
 
 ## Preview 📷
 
