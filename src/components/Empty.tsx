@@ -1,3 +1,4 @@
+import { InfoIcon } from "@chakra-ui/icons";
 import { Alert, AlertDescription, AlertIcon, AlertTitle } from "@chakra-ui/react";
 
 interface Props {
@@ -5,18 +6,19 @@ interface Props {
   message?: string;
 }
 
-export function Error({ title, message }: Props) {
+export function Empty({ title, message }: Props) {
   return (
     <Alert
-      status='error'
+      status='info'
       variant='subtle'
       flexDirection='column'
       alignItems='center'
       justifyContent='center'
       textAlign='center'
       height='200px'
+      bg="none"
     >
-      <AlertIcon boxSize='40px' mr={0} />
+      <InfoIcon boxSize='30px' mr={0} />
       <AlertTitle mt={4} mb={1} fontSize='lg'>
         {title}
       </AlertTitle>

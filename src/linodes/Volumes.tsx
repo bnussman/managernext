@@ -7,6 +7,7 @@ import { Volume } from "@linode/api-v4";
 import { Indicator } from "../components/Indicator";
 import { ColumnModal } from "../components/ColumnModal";
 import { Pagination } from "../components/Pagination";
+import { Empty } from "../components/Empty";
 
 interface Props {
   id: number;
@@ -90,8 +91,9 @@ export function Volumes({ id }: Props) {
   }
 
   if (error) {
-    return <Error />
+    return <Error title="Unable to load your Volumes" />
   }
+
 
   return (
     <Card p={4} variant="outline">
@@ -122,6 +124,7 @@ export function Volumes({ id }: Props) {
           </Tbody>
         </Table>
       </TableContainer>
+      {data.results === 0 && <Empty title="You have no Volumes" />}
       <Pagination
         page={page}
         pageSize={pageSize}
