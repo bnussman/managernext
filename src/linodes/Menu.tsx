@@ -2,7 +2,7 @@ import { HamburgerIcon } from "@chakra-ui/icons";
 import { IconButton, Menu as ChakraMenu, MenuButton, MenuItem, MenuList, Portal, useToast } from "@chakra-ui/react";
 import { Linode } from "@linode/api-v4";
 import { MouseEventHandler } from "react";
-import { useLinodeBootMutation, useLinodeShutdownMutation } from "../queries/linodes";
+import { useLinodeBootMutation, useLinodeRebootMutation, useLinodeShutdownMutation } from "../queries/linodes";
 
 interface Props {
   linode: Linode;
@@ -13,6 +13,7 @@ export function Menu({ linode, compact }: Props) {
   const toast = useToast();
   const { mutateAsync: shutdown } = useLinodeShutdownMutation(linode.id);
   const { mutateAsync: boot } = useLinodeBootMutation(linode.id);
+  const { mutateAsync: reboot } = useLinodeRebootMutation(linode.id);
 
   const onTogglePower: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation();
@@ -23,6 +24,12 @@ export function Menu({ linode, compact }: Props) {
     else {
       boot().then(() => toast({ title: 'Successfully booted Linode', status: 'success' }));
     }
+  };
+
+  const onReboot: MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.stopPropagation();
+
+    reboot().then(() => toast({ title: 'Successfully rebooted Linode', status: 'success' }));
   };
 
   return (
@@ -39,6 +46,9 @@ export function Menu({ linode, compact }: Props) {
         <MenuList>
           <MenuItem onClick={onTogglePower}>
             {linode.status === "running" ? "Shut Down" : "Power On"}
+          </MenuItem>
+          <MenuItem onClick={onReboot}>
+            Reboot
           </MenuItem>
         </MenuList>
       </Portal>

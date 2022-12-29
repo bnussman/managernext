@@ -1,5 +1,5 @@
 import { InfoIcon } from "@chakra-ui/icons";
-import { Alert, AlertDescription, AlertIcon, AlertTitle } from "@chakra-ui/react";
+import { Alert, AlertDescription, AlertTitle } from "@chakra-ui/react";
 
 interface Props {
   title: string;
