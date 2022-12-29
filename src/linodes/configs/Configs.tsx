@@ -1,12 +1,11 @@
-import { useLinodeDisksQuery } from "../queries/linodes";
-import { BoxProps, Card, HStack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
-import { Loading } from '../components/Loading';
-import { Error } from '../components/Error';
-import { useTable } from "../utils/useTable";
-import { Disk } from "@linode/api-v4";
-import { Indicator } from "../components/Indicator";
-import { ColumnModal } from "../components/ColumnModal";
-import { Pagination } from "../components/Pagination";
+import { useLinodeConfigsQuery } from "../../queries/linodes";
+import { BoxProps, Card, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import { Loading } from '../../components/Loading';
+import { Error } from '../../components/Error';
+import { useTable } from "../../utils/useTable";
+import { Config, Disk } from "@linode/api-v4";
+import { ColumnModal } from "../../components/ColumnModal";
+import { Pagination } from "../../components/Pagination";
 
 interface Props {
   id: number;
@@ -24,7 +23,7 @@ export const diskStatusMap: Record<Disk["status"], BoxProps["bgColor"]> = {
   deleting: "red.400",
 }
 
-export function Disks({ id }: Props) {
+export function Configs({ id }: Props) {
   const {
     page,
     pageSize,
@@ -40,7 +39,7 @@ export function Disks({ id }: Props) {
     onOpen,
     compact,
     handleToggleCompact
-  } = useTable<Disk>({
+  } = useTable<Config>({
     columns: [
       {
         label: "ID",
@@ -54,26 +53,6 @@ export function Disks({ id }: Props) {
         filterable: true
       },
       {
-        label: "Status",
-        key: 'status',
-        transform(status: Disk['status']) {
-          return (
-            <HStack>
-              <Indicator color={diskStatusMap[status]} />
-              <Text textTransform="capitalize">{status}</Text>
-            </HStack>
-          );
-        },
-      },
-      {
-        label: "Size",
-        key: 'size',
-        filterable: true,
-        transform(size: Disk['size']) {
-          return `${size / 1024} GB`;
-        },
-      },
-      {
         label: "Created",
         key: 'created',
         filterable: true
@@ -81,7 +60,7 @@ export function Disks({ id }: Props) {
     ]
   });
 
-  const { data, isLoading, error } = useLinodeDisksQuery(
+  const { data, isLoading, error } = useLinodeConfigsQuery(
     id,
     { page, page_size: pageSize },
     { "+order": order, "+order_by": orderBy }
@@ -92,7 +71,7 @@ export function Disks({ id }: Props) {
   }
 
   if (error) {
-    return <Error title="Unable to load your Disks" />
+    return <Error title="Unable to load Configs" />
   }
 
   return (

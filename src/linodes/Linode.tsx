@@ -9,6 +9,7 @@ import { Stats } from './Stats';
 import { Volumes } from './Volumes';
 import { Disks } from './Disks';
 import { Backups } from './backups/Backups';
+import { Configs } from './configs/Configs';
 
 const tabs = [
   "Stats",
@@ -120,7 +121,7 @@ export function Linode() {
             <Backups id={linode.id} />
           </TabPanel>
           <TabPanel>
-            Configs
+            <Configs id={linode.id} />
           </TabPanel>
           <TabPanel>
             Network

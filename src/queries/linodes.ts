@@ -1,5 +1,5 @@
 import { useMutation, useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { Disk, getLinode, getLinodeBackups, getLinodeDisks, getLinodes, getLinodeStats, getLinodeVolumes, Linode, LinodeBackup, LinodeBackupsResponse, Stats, takeSnapshot, Volume } from "@linode/api-v4";
+import { Config, Disk, getLinode, getLinodeBackups, getLinodeConfigs, getLinodeDisks, getLinodes, getLinodeStats, getLinodeVolumes, Linode, LinodeBackup, LinodeBackupsResponse, Stats, takeSnapshot, Volume } from "@linode/api-v4";
 import { AxiosError } from "axios";
 import { ResourcePage } from "@linode/api-v4/lib/types";
 import { Params } from "../utils/types";
@@ -43,6 +43,14 @@ export const useLinodeVolumesQuery = (id: number, params?: Params, filter?: any)
   return useQuery<ResourcePage<Volume>, AxiosError>(
     [queryKey, id, 'volumes', params, filter],
     () => getLinodeVolumes(id, params, filter),
+    { keepPreviousData: true }
+  );
+};
+
+export const useLinodeConfigsQuery = (id: number, params?: Params, filter?: any) => {
+  return useQuery<ResourcePage<Config>, AxiosError>(
+    [queryKey, id, 'configs', params, filter],
+    () => getLinodeConfigs(id, params, filter),
     { keepPreviousData: true }
   );
 };
