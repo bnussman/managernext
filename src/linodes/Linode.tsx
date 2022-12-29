@@ -1,4 +1,4 @@
-import { Box, Card, CardBody, Heading, HStack, ListItem, Spacer, Stack, Stat, StatHelpText, StatLabel, StatNumber, Tab, TabList, TabPanel, TabPanels, Tabs, Tag, Text, UnorderedList, Wrap, WrapItem } from '@chakra-ui/react';
+import { Box, Card, CardBody, Code, Heading, HStack, ListItem, Spacer, Stack, Stat, StatHelpText, StatLabel, StatNumber, Tab, TabList, TabPanel, TabPanels, Tabs, Tag, Text, UnorderedList, Wrap, WrapItem } from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Loading } from '../components/Loading';
 import { Error } from '../components/Error';
@@ -12,6 +12,7 @@ import { Backups } from './backups/Backups';
 import { Configs } from './configs/Configs';
 import { Network } from './network/Network';
 import { Settings } from './settings/Settings';
+import { dcDisplayNames } from '../utils/constants';
 
 const tabs = [
   "Stats",
@@ -77,21 +78,28 @@ export function Linode() {
                 </Stat>
               </WrapItem>
               <WrapItem>
+                <Stat>
+                  <StatLabel>Region</StatLabel>
+                  <StatNumber>{dcDisplayNames[linode.region]}</StatNumber>
+                  <StatHelpText textTransform="uppercase">{linode.region.split("-")[0]}</StatHelpText>
+                </Stat>
+              </WrapItem>
+              <WrapItem>
                 <Box>
                   <Heading size="sm">IPv4</Heading>
-                  <UnorderedList>
-                    {linode.ipv4.map((ip) => (
-                      <ListItem key={ip}>{ip}</ListItem>
-                    ))}
-                  </UnorderedList>
+                  {linode.ipv4.map((ip) => (
+                    <Text key={ip}>
+                      <Code>{ip}</Code>
+                    </Text>
+                  ))}
                 </Box>
               </WrapItem>
               <WrapItem>
                 <Box>
                   <Heading size="sm">IPv6</Heading>
-                  <UnorderedList>
-                    <ListItem>{linode.ipv6}</ListItem>
-                  </UnorderedList>
+                  <Text>
+                    <Code>{linode.ipv6}</Code>
+                  </Text>
                 </Box>
               </WrapItem>
             </Wrap>
