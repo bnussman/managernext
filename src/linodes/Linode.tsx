@@ -1,16 +1,35 @@
-import { Box, Card, CardBody, CardHeader, Center, Heading, HStack, ListItem, Spacer, Stack, Stat, StatHelpText, StatLabel, StatNumber, Tab, TabList, TabPanel, TabPanels, Tabs, Tag, Text, UnorderedList, Wrap, WrapItem } from '@chakra-ui/react';
-import { useParams } from 'react-router-dom';
+import { Box, Card, CardBody, Heading, HStack, ListItem, Spacer, Stack, Stat, StatHelpText, StatLabel, StatNumber, Tab, TabList, TabPanel, TabPanels, Tabs, Tag, Text, UnorderedList, Wrap, WrapItem } from '@chakra-ui/react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Loading } from '../components/Loading';
 import { Error } from '../components/Error';
 import { useLinodeQuery } from '../queries/linodes';
 import { Indicator } from '../components/Indicator';
 import { statusMap } from './Linodes';
 import { Stats } from './Stats';
+import { Volumes } from './Volumes';
+import { Disks } from './Disks';
+
+const tabs = [
+  "Stats",
+  "Disks",
+  "Volumes",
+  "Backups",
+  "Configurations",
+  "Network",
+  "Settings",
+];
 
 export function Linode() {
-  const { id } = useParams();
+  const { id, tab } = useParams();
+  const navigate = useNavigate();
 
   const { data: linode, isLoading, error } = useLinodeQuery(Number(id));
+
+  const onTabChange = (index: number) => {
+    navigate(`/linodes/${id}/${tabs[index].toLowerCase()}`);
+  };
+
+  const tabIndex = tabs.findIndex(t => tab === t.toLowerCase());
 
   if (isLoading) {
     return <Loading />
@@ -43,7 +62,7 @@ export function Linode() {
               <WrapItem>
                 <Stat>
                   <StatLabel>RAM</StatLabel>
-                  <StatNumber>{linode.specs.memory}</StatNumber>
+                  <StatNumber>{linode.specs.memory / 1024}</StatNumber>
                   <StatHelpText>GB</StatHelpText>
                 </Stat>
               </WrapItem>
@@ -76,16 +95,25 @@ export function Linode() {
           </Stack>
         </CardBody>
       </Card>
-      <Tabs colorScheme="gray">
+      <Tabs colorScheme="gray" index={tabIndex === -1 ? 0 : tabIndex} onChange={onTabChange} isLazy>
         <TabList>
           <Tab>Stats</Tab>
+          <Tab>Disks</Tab>
+          <Tab>Volumes</Tab>
           <Tab>Backups</Tab>
           <Tab>Configurations</Tab>
           <Tab>Network</Tab>
+          <Tab>Settings</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
             <Stats id={linode.id} />
+          </TabPanel>
+          <TabPanel>
+            <Disks id={linode.id} />
+          </TabPanel>
+          <TabPanel>
+            <Volumes id={linode.id} />
           </TabPanel>
           <TabPanel>
             Backups
@@ -95,6 +123,9 @@ export function Linode() {
           </TabPanel>
           <TabPanel>
             Network
+          </TabPanel>
+          <TabPanel>
+            Settings
           </TabPanel>
         </TabPanels>
       </Tabs>

@@ -1,5 +1,5 @@
-import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
-import { Box, Button, ButtonGroup, Flex, HStack, Select, Spacer, Text, useMediaQuery } from "@chakra-ui/react";
+import { ChevronLeftIcon, ChevronRightIcon, SettingsIcon } from "@chakra-ui/icons";
+import { Box, Button, ButtonGroup, Flex, HStack, IconButton, Select, Spacer, Text, useMediaQuery } from "@chakra-ui/react";
 
 interface PaginationProps {
   results?: number;
@@ -10,6 +10,7 @@ interface PaginationProps {
   pageSize: number;
   setPage: (page: number) => void;
   setPageSize: (size: number) => void;
+  onSettingsOpen: () => void;
 }
 
 interface DirectionButtonProps {
@@ -59,7 +60,8 @@ export function Pagination({
   page,
   setPage,
   pageSize,
-  setPageSize
+  setPageSize,
+  onSettingsOpen
 }: PaginationProps) {
 
   const pages = [],
@@ -118,6 +120,7 @@ export function Pagination({
         </Text>
         <Spacer />
         <HStack>
+          <IconButton onClick={onSettingsOpen} icon={<SettingsIcon />} aria-label="Table Settings" />
           <Select
             value={pageSize}
             onChange={(e) => setPageSize(Number(e.target.value))}

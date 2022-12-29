@@ -14,6 +14,13 @@ export const theme = extendTheme({
     }),
   },
   components: {
+    Tabs: {
+      baseStyle: {
+        tabpanel: {
+          px: 0,
+        }
+      }
+    },
     Modal: {
       baseStyle: (props: StyleFunctionProps) => ({
         dialog: {

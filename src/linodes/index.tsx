@@ -5,6 +5,7 @@ import { Linodes } from "./Linodes";
 export function LinodeRouter() {
   return (
     <Routes>
+      <Route path="/:id/:tab" element={<Linode />} />
       <Route path="/:id" element={<Linode />} />
       <Route path="/" element={<Linodes />} />
     </Routes>

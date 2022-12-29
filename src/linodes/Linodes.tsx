@@ -156,6 +156,7 @@ export function Linodes() {
         setPage={handlePageChange}
         setPageSize={handlePageSizeChange}
         results={data?.results}
+        onSettingsOpen={onOpen}
       />
       <ColumnModal
         isOpen={isOpen}
