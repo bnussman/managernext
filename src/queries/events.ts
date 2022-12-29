@@ -25,21 +25,14 @@ export const useEventsPollingQuery = () =>
   );
 
 function eventHandler(events: Event[]) {
-  const entities = events.reduce((acc: string[], event) => {
+  for (const event of events) {
     if (!event.entity) {
-      return acc;
+      continue;
     }
 
-    if (!acc.includes(event.entity.type)) {
-      return [...acc, event.entity.type];
-    }
+    console.log(`[Events] Invalidating ${event.entity.type} ${event.entity.id} and associated paginated store.`)
 
-    return acc;
-  }, []);
-
-  console.log(`[Events] Invalidating ${String(entities)}`)
-
-  for (const entity of entities) {
-    queryClient.invalidateQueries([entity]);
+    queryClient.invalidateQueries([event.entity.type, event.entity.id]);
+    queryClient.invalidateQueries([event.entity.type, "paginated"]);
   }
 }
