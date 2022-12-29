@@ -21,6 +21,17 @@ export const theme = extendTheme({
         }
       }
     },
+    Card: {
+      baseStyle: {
+        header: {
+          pb: 0,
+        },
+        footer: {
+          pt: 0,
+          justifyContent: 'flex-end',
+        },
+      }
+    },
     Modal: {
       baseStyle: (props: StyleFunctionProps) => ({
         dialog: {

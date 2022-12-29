@@ -39,7 +39,7 @@ export function Stats({ id }: Props) {
   return (
     <Stack w="100%" h={800} spacing={4}>
       <Card h="300" variant="outline">
-        <Heading p={4} size="lg" fontWeight="extrabold" letterSpacing="tighter" position="absolute">CPU</Heading>
+        <Heading p={4} size="lg" fontWeight="extrabold" letterSpacing="tighter" position="absolute" zIndex={10}>CPU</Heading>
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={stats.data.cpu.map(([x, y]) => ({ name: x, value: y, amt: y }))}
@@ -53,7 +53,7 @@ export function Stats({ id }: Props) {
       </Card>
 
       <Card h="300" variant="outline">
-        <Heading p={4} size="lg" fontWeight="extrabold" letterSpacing="tighter" position="absolute">Disk</Heading>
+        <Heading p={4} size="lg" fontWeight="extrabold" letterSpacing="tighter" position="absolute" zIndex={10}>Disk</Heading>
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={stats.data.io.io.map(([x, y]) => ({ name: x, value: y, amt: y }))}
@@ -67,7 +67,7 @@ export function Stats({ id }: Props) {
       </Card>
 
       <Card h="300" variant="outline">
-        <Heading p={4} size="lg" fontWeight="extrabold" letterSpacing="tighter" position="absolute">Network</Heading>
+        <Heading p={4} size="lg" fontWeight="extrabold" letterSpacing="tighter" position="absolute" zIndex={10}>Network</Heading>
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={network}

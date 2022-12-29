@@ -1,9 +1,9 @@
 import { useLinodeConfigsQuery } from "../../queries/linodes";
-import { BoxProps, Card, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import { BoxProps, Card, Table, TableContainer, Tbody, Td, Th, Thead, Tr, Text } from "@chakra-ui/react";
 import { Loading } from '../../components/Loading';
 import { Error } from '../../components/Error';
 import { useTable } from "../../utils/useTable";
-import { Config, Disk } from "@linode/api-v4";
+import { Config, Disk, DiskDevice, VolumeDevice } from "@linode/api-v4";
 import { ColumnModal } from "../../components/ColumnModal";
 import { Pagination } from "../../components/Pagination";
 
@@ -51,6 +51,21 @@ export function Configs({ id }: Props) {
         label: "Label",
         key: 'label',
         filterable: true
+      },
+      {
+        label: "Root Device",
+        key: "root_device",
+      },
+      {
+        label: "Kernel",
+        key: "kernel",
+      },
+      {
+        label: "Devices",
+        key: "devices",
+        transform(device: Config['devices']) {
+          return Object.values(device).filter(device => device !== null).length;
+        }
       },
       {
         label: "Created",

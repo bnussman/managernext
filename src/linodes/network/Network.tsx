@@ -1,16 +1,16 @@
 import { Stack } from "@chakra-ui/react";
 import { Loading } from "../../components/Loading";
 import { Error } from "../../components/Error";
-import { useLinodeBackupsQuery } from "../../queries/linodes";
-import { Automatic } from "./Automatic";
-import { Snapshot } from "./Snapshot";
+import { useLinodeIPsQuery } from "../../queries/linodes";
+import { IPv4 } from "./IPv4";
+import { IPv6 } from "./IPv6";
 
 interface Props {
   id: number;
 }
 
-export function Backups({ id }: Props) {
-  const { isLoading, error } = useLinodeBackupsQuery(id);
+export function Network({ id }: Props) {
+  const { isLoading, error } = useLinodeIPsQuery(id);
 
   if (isLoading) {
     return <Loading />;
@@ -22,8 +22,8 @@ export function Backups({ id }: Props) {
 
   return (
     <Stack spacing={4}>
-      <Automatic id={id} />
-      <Snapshot id={id} />
+      <IPv4 id={id} />
+      <IPv6 id={id} />
     </Stack>
   );
 }

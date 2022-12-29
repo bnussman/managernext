@@ -1,5 +1,5 @@
 import { useMutation, useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { Config, Disk, getLinode, getLinodeBackups, getLinodeConfigs, getLinodeDisks, getLinodes, getLinodeStats, getLinodeVolumes, Linode, LinodeBackup, LinodeBackupsResponse, Stats, takeSnapshot, Volume } from "@linode/api-v4";
+import { Config, Disk, getLinode, getLinodeBackups, getLinodeConfigs, getLinodeDisks, getLinodeIPs, getLinodes, getLinodeStats, getLinodeVolumes, Linode, LinodeBackup, LinodeBackupsResponse, LinodeIPsResponse, Stats, takeSnapshot, updateLinode, Volume } from "@linode/api-v4";
 import { AxiosError } from "axios";
 import { ResourcePage } from "@linode/api-v4/lib/types";
 import { Params } from "../utils/types";
@@ -9,7 +9,7 @@ export const queryKey = 'linode';
 
 export const useLinodesQuery = (params?: Params, filter?: any, options?: UseQueryOptions<ResourcePage<Linode>, AxiosError>) => {
   return useQuery<ResourcePage<Linode>, AxiosError>(
-    [queryKey, params, filter],
+    [queryKey, "paginated", params, filter],
     () => getLinodes(params, filter),
     { keepPreviousData: true, ...options }
   );
@@ -62,6 +62,13 @@ export const useLinodeBackupsQuery = (id: number) => {
   );
 };
 
+export const useLinodeIPsQuery = (id: number) => {
+  return useQuery<LinodeIPsResponse, AxiosError>(
+    [queryKey, id, 'ips'],
+    () => getLinodeIPs(id)
+  );
+};
+
 export const useCaptureSnapshotMutation = (id: number) => {
   return useMutation<LinodeBackup, AxiosError, { label: string }>(
     ({ label }) => takeSnapshot(id, label),
@@ -81,6 +88,18 @@ export const useCaptureSnapshotMutation = (id: number) => {
           };
         });
       },
+    }
+  );
+};
+
+export const useLinodeMutation = (id: number) => {
+  return useMutation<Linode, AxiosError, Partial<Linode>>(
+    (data) => updateLinode(id, data),
+    {
+      onSuccess(data) {
+        queryClient.setQueryData<Linode>([queryKey, id], data);
+        queryClient.invalidateQueries([queryKey, "paginated"]);
+      }
     }
   );
 };
