@@ -6,7 +6,7 @@ export interface Column<T> {
   key: keyof T | string;
   hidden?: boolean;
   filterable?: boolean;
-  transform?: (entity: T) => string | React.ReactNode;
+  transform?: (entity: T, compact: boolean) => string | React.ReactNode;
   tdProps?: TableCellProps;
   hideLabel?: boolean;
 }

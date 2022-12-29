@@ -108,14 +108,14 @@ export function Linodes() {
         key: 'actions',
         tdProps: { p: 0, textAlign: 'center' },
         hideLabel: true,
-        transform(linode) {
+        transform(linode, compact) {
           return (
             <Menu>
               <MenuButton
                 as={IconButton}
                 aria-label='Options'
                 icon={<HamburgerIcon />}
-                size="sm"
+                size={compact ? "xs" : "sm"}
                 p={0}
                 onClick={e => e.stopPropagation()}
               />
@@ -180,7 +180,7 @@ export function Linodes() {
                 _dark={{ _hover: { bgColor: "rgb(20, 24, 28)" } }}
               >
                 {columns.filter(column => !column.hidden).map((column) => (
-                  <Td {...column.tdProps} key={`${linode.id}-${column.key}`}>{column.transform ? column.transform(linode) : String(linode[column.key as keyof Linode])}</Td>
+                  <Td {...column.tdProps} key={`${linode.id}-${column.key}`}>{column.transform ? column.transform(linode, compact) : String(linode[column.key as keyof Linode])}</Td>
                 ))}
               </Tr>
             ))}
