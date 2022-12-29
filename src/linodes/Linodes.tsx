@@ -105,7 +105,6 @@ export function Linodes() {
       },
       {
         label: "Actions",
-        key: 'actions',
         tdProps: { p: 0, textAlign: 'center' },
         hideLabel: true,
         transform(linode, compact) {

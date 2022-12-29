@@ -1,9 +1,9 @@
 import { useLinodeConfigsQuery } from "../../queries/linodes";
-import { BoxProps, Card, Table, TableContainer, Tbody, Td, Th, Thead, Tr, Text } from "@chakra-ui/react";
+import { BoxProps, Card, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import { Loading } from '../../components/Loading';
 import { Error } from '../../components/Error';
 import { useTable } from "../../utils/useTable";
-import { Config, Disk, DiskDevice, VolumeDevice } from "@linode/api-v4";
+import { Config, Disk } from "@linode/api-v4";
 import { ColumnModal } from "../../components/ColumnModal";
 import { Pagination } from "../../components/Pagination";
 
@@ -63,8 +63,8 @@ export function Configs({ id }: Props) {
       {
         label: "Devices",
         key: "devices",
-        transform(device: Config['devices']) {
-          return Object.values(device).filter(device => device !== null).length;
+        transform({ devices }) {
+          return Object.values(devices).filter(device => device !== null).length;
         }
       },
       {
@@ -111,7 +111,7 @@ export function Configs({ id }: Props) {
             {data.data.map((disk) => (
               <Tr key={disk.id} >
                 {columns.filter(column => !column.hidden).map((column) => (
-                  <Td key={`${disk.id}-${column.key}`}>{column.transform ? column.transform(disk[column.key]) : String(disk[column.key])}</Td>
+                  <Td key={`${disk.id}-${column.key}`}>{column.transform ? column.transform(disk, compact) : String(disk[column.key as keyof Config])}</Td>
                 ))}
               </Tr>
             ))}

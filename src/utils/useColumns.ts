@@ -3,7 +3,7 @@ import { useState } from "react";
 
 export interface Column<T> {
   label: string;
-  key: keyof T | string;
+  key?: keyof T;
   hidden?: boolean;
   filterable?: boolean;
   transform?: (entity: T, compact: boolean) => string | React.ReactNode;

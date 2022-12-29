@@ -55,7 +55,7 @@ export function Volumes({ id }: Props) {
       {
         label: "Status",
         key: 'status',
-        transform(status: Volume['status']) {
+        transform({ status }) {
           return (
             <HStack>
               <Indicator color={volumeStatusMap[status]} />
@@ -68,7 +68,7 @@ export function Volumes({ id }: Props) {
         label: "Size",
         key: 'size',
         filterable: true,
-        transform(size: Volume['size']) {
+        transform({ size }) {
           return `${size} GB`;
         },
       },
@@ -115,9 +115,12 @@ export function Volumes({ id }: Props) {
           <Tbody>
             {data.data.map((volume) => (
               <Tr key={volume.id} >
-                {columns.filter(column => !column.hidden).map((column) => (
-                  <Td key={`${volume.id}-${column.key}`}>{column.transform ? column.transform(volume[column.key]) : String(volume[column.key])}</Td>
-                ))}
+                {columns.filter(column => !column.hidden).map((column, idx) => {
+                  const key = column.key ?? column.label as keyof Volume; 
+                  return (
+                    <Td key={`${volume.id}-${key}`}>{column.transform ? column.transform(volume, compact) : String(volume[key])}</Td>
+                  );
+                })}
               </Tr>
             ))}
           </Tbody>

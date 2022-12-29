@@ -11,7 +11,11 @@ export function useOrder() {
     setSearchParams(searchParams);
   };
 
-  const handleOrderBy = (key: string) => {
+  const handleOrderBy = (key: string | undefined) => {
+    if (!key) {
+      return;
+    }
+
     if (orderBy === key) {
       searchParams.set("order",  order === 'asc' ? 'desc' : 'asc');
       searchParams.set("order_by",  key);

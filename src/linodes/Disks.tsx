@@ -56,7 +56,7 @@ export function Disks({ id }: Props) {
       {
         label: "Status",
         key: 'status',
-        transform(status: Disk['status']) {
+        transform({ status }) {
           return (
             <HStack>
               <Indicator color={diskStatusMap[status]} />
@@ -69,7 +69,7 @@ export function Disks({ id }: Props) {
         label: "Size",
         key: 'size',
         filterable: true,
-        transform(size: Disk['size']) {
+        transform({ size }) {
           return `${size / 1024} GB`;
         },
       },
@@ -117,7 +117,7 @@ export function Disks({ id }: Props) {
             {data.data.map((disk) => (
               <Tr key={disk.id} >
                 {columns.filter(column => !column.hidden).map((column) => (
-                  <Td key={`${disk.id}-${column.key}`}>{column.transform ? column.transform(disk[column.key]) : String(disk[column.key])}</Td>
+                  <Td key={`${disk.id}-${column.key}`}>{column.transform ? column.transform(disk, compact) : String(disk[column.key as keyof Disk])}</Td>
                 ))}
               </Tr>
             ))}
