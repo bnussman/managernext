@@ -6,6 +6,19 @@ export const theme = extendTheme({
     initialColorMode: 'system',
     useSystemColorMode: true,
   },
+  colors: {
+    brand: {
+      100: "#C8FBCB",
+      200: "#94F7A3",
+      300: "#5CE77F",
+      400: "#33CF6B",
+      500: "#00B050",
+      600: "#009753",
+      700: "#007E52",
+      800: "#00664C",
+      900: "#005448",
+    }
+  },
   styles: {
     global: (props: StyleFunctionProps) => ({
       body: {
