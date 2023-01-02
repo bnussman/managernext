@@ -131,7 +131,7 @@ export function Linodes() {
         <Heading letterSpacing="tight" size="lg">Linodes</Heading>
         <Spacer />
         <IconButton onClick={onOpen} icon={<SettingsIcon />} aria-label="Table Settings" />
-        <Button rightIcon={<AddIcon />}>Create Linode</Button>
+        <Button onClick={() => navigate("/linodes/create")} rightIcon={<AddIcon />}>Create Linode</Button>
       </HStack>
       <TableContainer>
         <Table size={compact ? 'sm' : 'md'}>
