@@ -1,4 +1,4 @@
-import { Button, FormControl, FormErrorMessage, FormLabel, Heading, HStack, Input, Select, Spacer, Stack, useToast } from "@chakra-ui/react";
+import { Button, Card, CardBody, FormControl, FormErrorMessage, FormLabel, Heading, HStack, Input, Select, Spacer, Stack, useToast } from "@chakra-ui/react";
 import { CreateLinodeRequest } from "@linode/api-v4";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -25,53 +25,64 @@ export function Create() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Stack>
-        <Heading>Create Linode</Heading>
-        <FormControl isInvalid={hasErrorFor('image', error)}>
-          <FormLabel>Image</FormLabel>
-          <Select placeholder='Select Image' {...register("image")}>
-            {images?.data.map((image) => (
-              <option key={image.id} value={image.id}>{image.label}</option>
-            ))}
-          </Select>
-          <FormErrorMessage>
-            {getErrorFor('image', error)}
-          </FormErrorMessage>
-        </FormControl>
-        <FormControl isInvalid={hasErrorFor('region', error)}>
-          <FormLabel>Region</FormLabel>
-          <Select placeholder='Select Region' {...register("region")}>
-            {regions?.data.map((region) => (
-              <option key={region.id} value={region.id}>{region.id}</option>
-            ))}
-          </Select>
-          <FormErrorMessage>
-            {getErrorFor('region', error)}
-          </FormErrorMessage>
-        </FormControl>
-        <FormControl isInvalid={hasErrorFor('type', error)}>
-          <FormLabel>Image</FormLabel>
-          <Select placeholder='Select Image' {...register("type")}>
-            {types?.data.map((type) => (
-              <option key={type.id} value={type.id}>{type.label}</option>
-            ))}
-          </Select>
-          <FormErrorMessage>
-            {getErrorFor('type', error)}
-          </FormErrorMessage>
-        </FormControl>
-        <FormControl isInvalid={hasErrorFor('root_pass', error)}>
-          <FormLabel>Password</FormLabel>
-          <Input type="password" {...register('root_pass')} />
-          <FormErrorMessage>
-            {getErrorFor('root_pass', error)}
-          </FormErrorMessage>
-        </FormControl>
-        <HStack>
-          <Spacer />
-          <Button type="submit" isLoading={isLoading}>Create</Button>
-        </HStack>
-      </Stack>
+      <Heading size="lg" letterSpacing="tight" mb={4}>Create Linode</Heading>
+      <Card variant="outline">
+        <CardBody>
+          <Stack spacing={4}>
+            <FormControl isInvalid={hasErrorFor('label', error)}>
+              <FormLabel>Label</FormLabel>
+              <Input {...register('label')} />
+              <FormErrorMessage>
+                {getErrorFor('label', error)}
+              </FormErrorMessage>
+            </FormControl>
+            <FormControl isInvalid={hasErrorFor('image', error)}>
+              <FormLabel>Image</FormLabel>
+              <Select placeholder='Select Image' {...register("image")}>
+                {images?.data.map((image) => (
+                  <option key={image.id} value={image.id}>{image.label}</option>
+                ))}
+              </Select>
+              <FormErrorMessage>
+                {getErrorFor('image', error)}
+              </FormErrorMessage>
+            </FormControl>
+            <FormControl isInvalid={hasErrorFor('region', error)}>
+              <FormLabel>Region</FormLabel>
+              <Select placeholder='Select Region' {...register("region")}>
+                {regions?.data.map((region) => (
+                  <option key={region.id} value={region.id}>{region.id}</option>
+                ))}
+              </Select>
+              <FormErrorMessage>
+                {getErrorFor('region', error)}
+              </FormErrorMessage>
+            </FormControl>
+            <FormControl isInvalid={hasErrorFor('type', error)}>
+              <FormLabel>Image</FormLabel>
+              <Select placeholder='Select Image' {...register("type")}>
+                {types?.data.map((type) => (
+                  <option key={type.id} value={type.id}>{type.label}</option>
+                ))}
+              </Select>
+              <FormErrorMessage>
+                {getErrorFor('type', error)}
+              </FormErrorMessage>
+            </FormControl>
+            <FormControl isInvalid={hasErrorFor('root_pass', error)}>
+              <FormLabel>Password</FormLabel>
+              <Input type="password" {...register('root_pass')} />
+              <FormErrorMessage>
+                {getErrorFor('root_pass', error)}
+              </FormErrorMessage>
+            </FormControl>
+            <HStack>
+              <Spacer />
+              <Button type="submit" isLoading={isLoading} colorScheme="brand">Create</Button>
+            </HStack>
+          </Stack>
+        </CardBody>
+      </Card>
     </form>
   );
 }
