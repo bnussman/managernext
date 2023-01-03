@@ -1,7 +1,7 @@
 import { useMutation, useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { Config, Disk, getLinode, getLinodeBackups, getLinodeConfigs, getLinodeDisks, getLinodeIPs, getLinodes, getLinodeStats, getLinodeVolumes, Linode, LinodeBackup, LinodeBackupsResponse, linodeBoot, LinodeIPsResponse, linodeReboot, linodeShutdown, Stats, takeSnapshot, updateLinode, Volume } from "@linode/api-v4";
+import { Config, createLinode, CreateLinodeRequest, Disk, getLinode, getLinodeBackups, getLinodeConfigs, getLinodeDisks, getLinodeIPs, getLinodes, getLinodeStats, getLinodeTypes, getLinodeVolumes, Linode, LinodeBackup, LinodeBackupsResponse, linodeBoot, LinodeIPsResponse, linodeReboot, linodeShutdown, LinodeType, Stats, takeSnapshot, updateLinode, Volume } from "@linode/api-v4";
 import { AxiosError } from "axios";
-import { ResourcePage } from "@linode/api-v4/lib/types";
+import { APIError, ResourcePage } from "@linode/api-v4/lib/types";
 import { Params } from "../utils/types";
 import { queryClient } from "../App";
 
@@ -12,6 +12,13 @@ export const useLinodesQuery = (params?: Params, filter?: any, options?: UseQuer
     [queryKey, "paginated", params, filter],
     () => getLinodes(params, filter),
     { keepPreviousData: true, ...options }
+  );
+};
+
+export const useLinodeTypesQuery = (params?: Params) => {
+  return useQuery<ResourcePage<LinodeType>, AxiosError>(
+    [queryKey, "types"],
+    () => getLinodeTypes(params),
   );
 };
 
@@ -154,6 +161,18 @@ export const useLinodeRebootMutation = (id: number) => {
 
           return { ...oldData, status: 'rebooting' };
         });
+      },
+    }
+  );
+};
+
+export const useCreateLinodeMutation = () => {
+  return useMutation<Linode, APIError[], CreateLinodeRequest>(
+    createLinode,
+    {
+      onSuccess(linode) {
+        queryClient.invalidateQueries([queryKey, "paginated"]);
+        queryClient.setQueryData<Linode>([queryKey, linode.id], linode);
       },
     }
   );

@@ -6,6 +6,18 @@ import { Navigation } from "./Navigation";
 import { theme } from "./utils/theme";
 import { LinodeRouter } from "./linodes";
 import { useEventsPollingQuery } from "./queries/events";
+import { baseRequest } from "@linode/api-v4";
+import { AxiosError } from "axios";
+import { APIError } from "@linode/api-v4/lib/types";
+
+const normalizeErrors = (error: AxiosError<{ errors: APIError[] }>) => {
+  const errors: APIError[] = error.response?.data?.errors ?? [
+    { reason: "Unknown Error" },
+  ];
+  return Promise.reject(errors);
+};
+
+baseRequest.interceptors.response.use(undefined, normalizeErrors);
 
 export const queryClient = new QueryClient();
 
