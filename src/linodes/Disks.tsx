@@ -63,7 +63,7 @@ export function Disks({ id }: Props) {
 
   return (
     <Card p={4} variant="outline">
-      <Table columns={columns} query={(params, filter) => useLinodeDisksQuery(id, params, filter)} />
+      <Table entity="disk" columns={columns} query={(params, filter) => useLinodeDisksQuery(id, params, filter)} />
     </Card>
   );
 }

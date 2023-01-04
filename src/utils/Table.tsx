@@ -9,10 +9,13 @@ import { Column } from "./useColumns";
 import { useTable } from "./useTable";
 import { Pagination } from "../components/Pagination";
 import { ColumnModal } from "../components/ColumnModal";
+import { Empty } from "../components/Empty";
+import { capitalize } from "./capitalize";
 
 interface Props<T> {
   columns: Column<T>[];
   query: (params: Params, filter: any) => UseQueryResult<ResourcePage<T>>;
+  entity: string;
 }
 
 export function Table<T extends { id: string | number }>(props: Props<T>) {
@@ -44,7 +47,7 @@ export function Table<T extends { id: string | number }>(props: Props<T>) {
   }
 
   if (error) {
-    return <Error title="Unable to load your Linodes" />;
+    return <Error title={`Unable to load your ${capitalize(props.entity)}s`} />;
   }
 
   return (
@@ -69,7 +72,7 @@ export function Table<T extends { id: string | number }>(props: Props<T>) {
             {data?.data.map((entity) => (
               <Tr
                 key={entity.id}
-                onClick={() => navigate(`/linodes/${entity.id}`)}
+                onClick={() => navigate(`/${props.entity}s/${entity.id}`)}
                 cursor="pointer"
                 _hover={{ bgColor: 'gray.50' }}
                 _dark={{ _hover: { bgColor: "rgb(20, 24, 28)" } }}
@@ -82,6 +85,7 @@ export function Table<T extends { id: string | number }>(props: Props<T>) {
           </Tbody>
         </ChakraTable>
       </TableContainer>
+      {data?.results === 0 && <Empty title={`You have no ${capitalize(props.entity)}s`} />}
       <Pagination
         page={page}
         pageSize={pageSize}

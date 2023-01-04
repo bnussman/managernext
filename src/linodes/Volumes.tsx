@@ -1,13 +1,9 @@
 import { useLinodeVolumesQuery } from "../queries/linodes";
-import { BoxProps, Card, HStack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
-import { Loading } from '../components/Loading';
-import { Error } from '../components/Error';
-import { useTable } from "../utils/useTable";
+import { BoxProps, Card, HStack, Text } from "@chakra-ui/react";
 import { Volume } from "@linode/api-v4";
 import { Indicator } from "../components/Indicator";
-import { ColumnModal } from "../components/ColumnModal";
-import { Pagination } from "../components/Pagination";
-import { Empty } from "../components/Empty";
+import { Column } from "../utils/useColumns";
+import { Table } from "../utils/Table";
 
 interface Props {
   id: number;
@@ -24,125 +20,49 @@ export const volumeStatusMap: Record<Volume["status"], BoxProps["bgColor"]> = {
 }
 
 export function Volumes({ id }: Props) {
-  const {
-    page,
-    pageSize,
-    handlePageChange,
-    handlePageSizeChange,
-    order,
-    orderBy,
-    handleOrderBy,
-    columns,
-    handleToggleColumnHidden,
-    isOpen,
-    onClose,
-    onOpen,
-    compact,
-    handleToggleCompact
-  } = useTable<Volume>({
-    columns: [
-      {
-        label: "ID",
-        key: 'id',
-        filterable: true,
-        hidden: true,
-      },
-      {
-        label: "Label",
-        key: 'label',
-        filterable: true
-      },
-      {
-        label: "Status",
-        key: 'status',
-        transform({ status }) {
-          return (
-            <HStack>
-              <Indicator color={volumeStatusMap[status]} />
-              <Text textTransform="capitalize">{status}</Text>
-            </HStack>
-          );
-        },
-      },
-      {
-        label: "Size",
-        key: 'size',
-        filterable: true,
-        transform({ size }) {
-          return `${size} GB`;
-        },
-      },
-      {
-        label: "Created",
-        key: 'created',
-        filterable: true
-      },
-    ]
-  });
 
-  const { data, isLoading, error } = useLinodeVolumesQuery(
-    id,
-    { page, page_size: pageSize },
-    { "+order": order, "+order_by": orderBy }
-  );
-
-  if (isLoading) {
-    return <Loading />
-  }
-
-  if (error) {
-    return <Error title="Unable to load your Volumes" />
-  }
+  const columns: Column<Volume>[] = [
+    {
+      label: "ID",
+      key: 'id',
+      filterable: true,
+      hidden: true,
+    },
+    {
+      label: "Label",
+      key: 'label',
+      filterable: true
+    },
+    {
+      label: "Status",
+      key: 'status',
+      transform({ status }) {
+        return (
+          <HStack>
+            <Indicator color={volumeStatusMap[status]} />
+            <Text textTransform="capitalize">{status}</Text>
+          </HStack>
+        );
+      },
+    },
+    {
+      label: "Size",
+      key: 'size',
+      filterable: true,
+      transform({ size }) {
+        return `${size} GB`;
+      },
+    },
+    {
+      label: "Created",
+      key: 'created',
+      filterable: true
+    },
+  ];
 
   return (
     <Card p={4} variant="outline">
-      <TableContainer>
-        <Table size={compact ? 'sm' : 'md'}>
-          <Thead>
-            <Tr>
-              {columns.filter(column => !column.hidden).map((column) => (
-                <Th
-                  key={column.key}
-                  onClick={column.filterable ? () => handleOrderBy(column.key) : undefined}
-                  cursor={column.filterable ? "pointer" : undefined}
-                >
-                  {column.label}
-                  {orderBy === column.key && (order === 'asc' ? " ⬆️" : " ⬇️")}
-                </Th>
-              ))}
-            </Tr>
-          </Thead>
-          <Tbody>
-            {data.data.map((volume) => (
-              <Tr key={volume.id} >
-                {columns.filter(column => !column.hidden).map((column, idx) => {
-                  const key = column.key ?? column.label as keyof Volume; 
-                  return (
-                    <Td key={`${volume.id}-${key}`}>{column.transform ? column.transform(volume, compact) : String(volume[key])}</Td>
-                  );
-                })}
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
-      {data.results === 0 && <Empty title="You have no Volumes" />}
-      <Pagination
-        page={page}
-        pageSize={pageSize}
-        setPage={handlePageChange}
-        setPageSize={handlePageSizeChange}
-        results={data?.results}
-        onSettingsOpen={onOpen}
-      />
-      <ColumnModal
-        isOpen={isOpen}
-        onClose={onClose}
-        columns={columns}
-        compact={compact}
-        handleToggleColumnHidden={handleToggleColumnHidden}
-        handleToggleCompact={handleToggleCompact}
-      />
+      <Table entity="volume" columns={columns} query={(params, filter) => useLinodeVolumesQuery(id, params, filter)} />
     </Card>
   );
 }

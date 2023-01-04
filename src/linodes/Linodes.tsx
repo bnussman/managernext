@@ -101,7 +101,7 @@ export function Linodes() {
         <Spacer />
         <Button onClick={() => navigate("/linodes/create")} rightIcon={<AddIcon />}>Create Linode</Button>
       </HStack>
-      <Table columns={columns} query={useLinodesQuery} />
+      <Table entity="linode" columns={columns} query={useLinodesQuery} />
     </Stack>
   );
 };
