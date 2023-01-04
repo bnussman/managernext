@@ -43,10 +43,10 @@ export const Stats = memo(({ id }: Props) => {
         <Heading p={4} size="lg" fontWeight="extrabold" letterSpacing="tighter" position="absolute" zIndex={10}>CPU</Heading>
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
-            data={stats.data.cpu.map(([x, y]) => ({ name: x, value: y, amt: y }))}
+            data={stats.data.cpu.map(([x, y]) => ({ time: x, value: y }))}
             margin={margin}
           >
-            {/* <YAxis mirror /> */}
+            <XAxis dataKey="time" scale="time" hide />
             <Tooltip content={<CUPTooltip />} wrapperStyle={{ outline: "none" }} />
             <Area type="monotone" dataKey="value" stroke="rgb(104, 211, 145)" fill="rgb(104, 211, 145)" />
           </AreaChart>
@@ -57,10 +57,10 @@ export const Stats = memo(({ id }: Props) => {
         <Heading p={4} size="lg" fontWeight="extrabold" letterSpacing="tighter" position="absolute" zIndex={10}>Disk</Heading>
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
-            data={stats.data.io.io.map(([x, y]) => ({ name: x, value: y, amt: y }))}
+            data={stats.data.io.io.map(([x, y]) => ({ time: x, value: y }))}
             margin={margin}
           >
-            {/* <YAxis mirror /> */}
+            <XAxis dataKey="time" scale="time" hide />
             <Tooltip content={<DiskTooltip />} wrapperStyle={{ outline: "none" }} />
             <Area type="monotone" dataKey="value" stroke="rgb(104, 211, 145)" fill="rgb(104, 211, 145)" />
           </AreaChart>
