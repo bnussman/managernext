@@ -1,13 +1,12 @@
 import { getEvents, Event, markEventSeen } from "@linode/api-v4";
-import { ResourcePage } from "@linode/api-v4/lib/types";
+import { APIError, ResourcePage } from "@linode/api-v4/lib/types";
 import { useQuery } from "@tanstack/react-query";
-import { AxiosError } from "axios";
 import { queryClient } from "../App";
 
 const queryKey = 'events';
 
 export const useEventsPollingQuery = () =>
-  useQuery<ResourcePage<Event>, AxiosError>(
+  useQuery<ResourcePage<Event>, APIError[]>(
     [queryKey, "polling"],
     () => getEvents({ page_size: 100 }, { seen: false }),
     {

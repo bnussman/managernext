@@ -4,7 +4,7 @@ import { useOrder } from "./useOrder";
 import { usePagination } from "./usePagination";
 
 export function useTable<T>(props: { columns: Column<T>[] }) {
-  const columns = useColumns(props);
+  const columns = useColumns({ columns: props.columns });
   const order = useOrder();
   const pagination = usePagination();
   const [compact, setCompact] = useState(false);

@@ -1,14 +1,13 @@
 import { useMutation, useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { Config, createLinode, CreateLinodeRequest, Disk, getLinode, getLinodeBackups, getLinodeConfigs, getLinodeDisks, getLinodeIPs, getLinodes, getLinodeStats, getLinodeTypes, getLinodeVolumes, Linode, LinodeBackup, LinodeBackupsResponse, linodeBoot, LinodeIPsResponse, linodeReboot, linodeShutdown, LinodeType, Stats, takeSnapshot, updateLinode, Volume } from "@linode/api-v4";
-import { AxiosError } from "axios";
 import { APIError, ResourcePage } from "@linode/api-v4/lib/types";
 import { Params } from "../utils/types";
 import { queryClient } from "../App";
 
 export const queryKey = 'linode';
 
-export const useLinodesQuery = (params?: Params, filter?: any, options?: UseQueryOptions<ResourcePage<Linode>, AxiosError>) => {
-  return useQuery<ResourcePage<Linode>, AxiosError>(
+export const useLinodesQuery = (params?: Params, filter?: any, options?: UseQueryOptions<ResourcePage<Linode>, APIError[]>) => {
+  return useQuery<ResourcePage<Linode>, APIError[]>(
     [queryKey, "paginated", params, filter],
     () => getLinodes(params, filter),
     { keepPreviousData: true, ...options }
@@ -16,21 +15,21 @@ export const useLinodesQuery = (params?: Params, filter?: any, options?: UseQuer
 };
 
 export const useLinodeTypesQuery = (params?: Params) => {
-  return useQuery<ResourcePage<LinodeType>, AxiosError>(
+  return useQuery<ResourcePage<LinodeType>, APIError[]>(
     [queryKey, "types"],
     () => getLinodeTypes(params),
   );
 };
 
 export const useLinodeQuery = (id: number) => {
-  return useQuery<Linode, AxiosError>(
+  return useQuery<Linode, APIError[]>(
     [queryKey, id],
     () => getLinode(id),
   );
 };
 
 export const useLinodeStatsQuery = (id: number) => {
-  return useQuery<Stats, AxiosError>(
+  return useQuery<Stats, APIError[]>(
     [queryKey, id, 'stats'],
     () => getLinodeStats(id),
     { refetchInterval: 30000, retryDelay: 10000 }
@@ -38,7 +37,7 @@ export const useLinodeStatsQuery = (id: number) => {
 };
 
 export const useLinodeDisksQuery = (id: number, params?: Params, filter?: any) => {
-  return useQuery<ResourcePage<Disk>, AxiosError>(
+  return useQuery<ResourcePage<Disk>, APIError[]>(
     [queryKey, id, 'disks', params, filter],
     () => getLinodeDisks(id, params, filter),
     { keepPreviousData: true }
@@ -47,7 +46,7 @@ export const useLinodeDisksQuery = (id: number, params?: Params, filter?: any) =
 
 
 export const useLinodeVolumesQuery = (id: number, params?: Params, filter?: any) => {
-  return useQuery<ResourcePage<Volume>, AxiosError>(
+  return useQuery<ResourcePage<Volume>, APIError[]>(
     [queryKey, id, 'volumes', params, filter],
     () => getLinodeVolumes(id, params, filter),
     { keepPreviousData: true }
@@ -55,7 +54,7 @@ export const useLinodeVolumesQuery = (id: number, params?: Params, filter?: any)
 };
 
 export const useLinodeConfigsQuery = (id: number, params?: Params, filter?: any) => {
-  return useQuery<ResourcePage<Config>, AxiosError>(
+  return useQuery<ResourcePage<Config>, APIError[]>(
     [queryKey, id, 'configs', params, filter],
     () => getLinodeConfigs(id, params, filter),
     { keepPreviousData: true }
@@ -63,21 +62,21 @@ export const useLinodeConfigsQuery = (id: number, params?: Params, filter?: any)
 };
 
 export const useLinodeBackupsQuery = (id: number) => {
-  return useQuery<LinodeBackupsResponse, AxiosError>(
+  return useQuery<LinodeBackupsResponse, APIError[]>(
     [queryKey, id, 'backups'],
     () => getLinodeBackups(id)
   );
 };
 
 export const useLinodeIPsQuery = (id: number) => {
-  return useQuery<LinodeIPsResponse, AxiosError>(
+  return useQuery<LinodeIPsResponse, APIError[]>(
     [queryKey, id, 'ips'],
     () => getLinodeIPs(id)
   );
 };
 
 export const useCaptureSnapshotMutation = (id: number) => {
-  return useMutation<LinodeBackup, AxiosError, { label: string }>(
+  return useMutation<LinodeBackup, APIError[], { label: string }>(
     ({ label }) => takeSnapshot(id, label),
     {
       onSuccess(data) {
@@ -100,7 +99,7 @@ export const useCaptureSnapshotMutation = (id: number) => {
 };
 
 export const useLinodeMutation = (id: number) => {
-  return useMutation<Linode, AxiosError, Partial<Linode>>(
+  return useMutation<Linode, APIError[], Partial<Linode>>(
     (data) => updateLinode(id, data),
     {
       onSuccess(data) {
@@ -113,7 +112,7 @@ export const useLinodeMutation = (id: number) => {
 
 
 export const useLinodeShutdownMutation = (id: number) => {
-  return useMutation<{}, AxiosError>(
+  return useMutation<{}, APIError[]>(
     () => linodeShutdown(id),
     {
       onSuccess() {
@@ -131,7 +130,7 @@ export const useLinodeShutdownMutation = (id: number) => {
 };
 
 export const useLinodeBootMutation = (id: number) => {
-  return useMutation<{}, AxiosError>(
+  return useMutation<{}, APIError[]>(
     () => linodeBoot(id),
     {
       onSuccess() {
@@ -149,7 +148,7 @@ export const useLinodeBootMutation = (id: number) => {
 };
 
 export const useLinodeRebootMutation = (id: number) => {
-  return useMutation<{}, AxiosError>(
+  return useMutation<{}, APIError[]>(
     () => linodeReboot(id),
     {
       onSuccess() {

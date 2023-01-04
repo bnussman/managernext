@@ -39,14 +39,9 @@ function PageButton(props: PageButtonProps) {
 
 function DirectionButton(props: DirectionButtonProps) {
   const { disabled, onClick, direction } = props;
-  const [isDesktop] = useMediaQuery('(min-width: 800px)')
 
   return (
-    <Button
-      disabled={disabled}
-      onClick={onClick}
-      size={!isDesktop ? "sm": undefined}
-    >
+    <Button disabled={disabled} onClick={onClick}>
       {direction === 'right' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
     </Button>
   )

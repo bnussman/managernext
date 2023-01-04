@@ -6,10 +6,8 @@ specifiers:
   '@chakra-ui/theme-tools': ^2.0.15
   '@emotion/react': ^11.10.5
   '@emotion/styled': ^11.10.5
-  '@hookform/resolvers': ^2.9.10
   '@linode/api-v4': ^0.84.0
   '@tanstack/react-query': ^4.16.1
-  '@ts-react/form': ^1.0.5
   '@types/md5': ^2.3.2
   '@types/react': ^18.0.24
   '@types/react-dom': ^18.0.8
@@ -24,7 +22,6 @@ specifiers:
   recharts: ^2.2.0
   typescript: ^4.6.4
   vite: ^4.0.3
-  zod: ^3.20.2
 
 dependencies:
   '@chakra-ui/icons': 2.0.15_react@18.2.0
@@ -32,10 +29,8 @@ dependencies:
   '@chakra-ui/theme-tools': 2.0.15
   '@emotion/react': 11.10.5_kzbn2opkn2327fwg5yzwzya5o4
   '@emotion/styled': 11.10.5_qvatmowesywn4ye42qoh247szu
-  '@hookform/resolvers': 2.9.10_react-hook-form@7.41.2
   '@linode/api-v4': 0.84.0
   '@tanstack/react-query': 4.20.4_biqbaboplfbrettd7655fr4n2y
-  '@ts-react/form': 1.0.5_ia5jpzbx5lt3clvkck6n5sks6q
   axios: 1.2.1
   framer-motion: 8.0.2_biqbaboplfbrettd7655fr4n2y
   md5: 2.3.0
@@ -44,7 +39,6 @@ dependencies:
   react-hook-form: 7.41.2_react@18.2.0
   react-router-dom: 6.6.1_biqbaboplfbrettd7655fr4n2y
   recharts: 2.2.0_biqbaboplfbrettd7655fr4n2y
-  zod: 3.20.2
 
 devDependencies:
   '@types/md5': 2.3.2
@@ -1542,14 +1536,6 @@ packages:
     dev: true
     optional: true
 
-  /@hookform/resolvers/2.9.10_react-hook-form@7.41.2:
-    resolution: {integrity: sha512-JIL1DgJIlH9yuxcNGtyhsWX/PgNltz+5Gr6+8SX9fhXc/hPbEIk6wPI82nhgvp3uUb6ZfAM5mqg/x7KR7NAb+A==}
-    peerDependencies:
-      react-hook-form: ^7.0.0
-    dependencies:
-      react-hook-form: 7.41.2_react@18.2.0
-    dev: false
-
   /@linode/api-v4/0.84.0:
     resolution: {integrity: sha512-D5iXBMAm3GdOfgOT11dt6fPH0YQ/4OiadqKS11S8gTJu5eKl288RkOvBRcTBlZcloemKQN482r+R0SipVMF+uA==}
     engines: {node: '>= 14.17.4'}
@@ -1755,20 +1741,6 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
-    dev: false
-
-  /@ts-react/form/1.0.5_ia5jpzbx5lt3clvkck6n5sks6q:
-    resolution: {integrity: sha512-FFCNWZZXPoDXflhQA/Jx9aWB3EpdsbkcWd8MPM7EfrWeNuab+M1Fb9PnqlqIaZbP/1eznI2XX5AHdaMwfhqUjQ==}
-    peerDependencies:
-      '@hookform/resolvers': ^2.8.0
-      react: ^18.0.0
-      react-hook-form: ^7.39.0
-      zod: ^3.19.0
-    dependencies:
-      '@hookform/resolvers': 2.9.10_react-hook-form@7.41.2
-      react: 18.2.0
-      react-hook-form: 7.41.2_react@18.2.0
-      zod: 3.20.2
     dev: false
 
   /@types/d3-color/2.0.3:
@@ -2767,8 +2739,4 @@ packages:
       nanoclone: 0.2.1
       property-expr: 2.0.5
       toposort: 2.0.2
-    dev: false
-
-  /zod/3.20.2:
-    resolution: {integrity: sha512-1MzNQdAvO+54H+EaK5YpyEy0T+Ejo/7YLHS93G3RnYWh5gaotGHwGeN/ZO687qEDU2y4CdStQYXVHIgrUl5UVQ==}
     dev: false
