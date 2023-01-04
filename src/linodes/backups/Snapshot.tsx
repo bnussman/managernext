@@ -32,14 +32,6 @@ export function Snapshot({ id }: Props) {
       <CardHeader>
         <HStack>
           <Heading size="md">Snapshot</Heading>
-          {snapshots.in_progress !== null && (
-            <Tag>
-              <HStack>
-                <Text>In progress</Text>
-                <Indicator color="orange.300" />
-              </HStack>
-            </Tag>
-          )}
           <Spacer />
           <Button onClick={onOpen}>Capture Snapshot</Button>
         </HStack>
