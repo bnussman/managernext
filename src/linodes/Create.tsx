@@ -59,8 +59,8 @@ export function Create() {
               </FormErrorMessage>
             </FormControl>
             <FormControl isInvalid={hasErrorFor('type', error)}>
-              <FormLabel>Image</FormLabel>
-              <Select placeholder='Select Image' {...register("type")}>
+              <FormLabel>Plan</FormLabel>
+              <Select placeholder='Select Plan' {...register("type")}>
                 {types?.data.map((type) => (
                   <option key={type.id} value={type.id}>{type.label}</option>
                 ))}

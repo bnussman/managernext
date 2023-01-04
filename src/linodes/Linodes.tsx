@@ -24,6 +24,7 @@ import {
   Tr,
   Text,
   BoxProps,
+  Stack,
 } from "@chakra-ui/react";
 
 export const statusMap: Record<Linode["status"], BoxProps["bgColor"]> = {
@@ -127,7 +128,7 @@ export function Linodes() {
   }
 
   return (
-    <>
+    <Stack>
       <HStack>
         <Heading letterSpacing="tight" size="lg">Linodes</Heading>
         <Spacer />
@@ -183,6 +184,6 @@ export function Linodes() {
         handleToggleColumnHidden={handleToggleColumnHidden}
         handleToggleCompact={handleToggleCompact}
       />
-    </>
+    </Stack>
   );
 };

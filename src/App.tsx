@@ -9,6 +9,9 @@ import { useEventsPollingQuery } from "./queries/events";
 import { baseRequest } from "@linode/api-v4";
 import { AxiosError } from "axios";
 import { APIError } from "@linode/api-v4/lib/types";
+import { NotFound } from "./components/NotFound";
+import "@fontsource/poppins/400.css"
+import "@fontsource/poppins/700.css"
 
 const normalizeErrors = (error: AxiosError<{ errors: APIError[] }>) => {
   const errors: APIError[] = error.response?.data?.errors ?? [
@@ -35,10 +38,8 @@ function Main() {
           {!isLoading && (
             <>
               <Route path="/linodes/*" element={<LinodeRouter />} />
-              <Route
-                path="*"
-                element={<Navigate to="/linodes" replace />}
-              />
+              <Route path="/" element={<Navigate to="/linodes" />} />
+              <Route path="*" element={<NotFound />} />
             </>
           )}
         </Routes>

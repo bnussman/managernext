@@ -6,6 +6,10 @@ export const theme = extendTheme({
     initialColorMode: 'system',
     useSystemColorMode: true,
   },
+  fonts: {
+    heading: "poppins",
+    body: "poppins",
+  },
   colors: {
     brand: {
       100: "#C8FBCB",
