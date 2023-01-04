@@ -1,6 +1,7 @@
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { getGravatar, useProfile } from './queries/profile';
 import { Link, useNavigate } from 'react-router-dom';
+import { Fragment } from 'react';
 import {
   Avatar,
   HStack,
@@ -75,14 +76,14 @@ export function Navigation() {
           />
           <MenuList>
             {items.map(({ title, routes }, idx) => (
-              <>
+              <Fragment key={title}>
                 <MenuGroup title={title}>
                   {routes.map(entity => (
                     <MenuItem key={entity} onClick={() => navigate(`/${entity.toLowerCase()}`)}>{entity}</MenuItem>
                   ))}
                 </MenuGroup>
                 {idx !== items.length - 1 && <MenuDivider />}
-              </>
+              </Fragment>
             ))}
           </MenuList>
         </Menu>

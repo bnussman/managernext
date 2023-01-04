@@ -1,4 +1,4 @@
-import { useLinodesQuery } from "../queries/linodes";
+import { useLinodesQuery, useLinodeTypesQuery } from "../queries/linodes";
 import { Loading } from "../components/Loading";
 import { Error } from "../components/Error";
 import { Pagination } from "../components/Pagination";
@@ -88,6 +88,14 @@ export function Linodes() {
         label: "Type",
         key: 'type',
         hidden: true,
+        filterable: true,
+        transform({ type }) {
+          const Type = () => {
+            const { data: types } = useLinodeTypesQuery();
+            return <p>{types?.data.find(t => t.id === type)?.label ?? "Unknown Plan"}</p>;
+          };
+          return <Type />
+        },
       },
       {
         label: "IPv4",

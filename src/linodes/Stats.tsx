@@ -74,7 +74,6 @@ export const Stats = memo(({ id }: Props) => {
             data={network}
             margin={margin}
           >
-            {/* <YAxis mirror /> */}
             <XAxis dataKey="time" scale="time" hide />
             <Tooltip content={<NetworkTooltip />} wrapperStyle={{ outline: "none" }} />
             <Area type="monotone" dataKey="in" stroke="rgb(104, 211, 145)" fill="rgb(104, 211, 145)" />
