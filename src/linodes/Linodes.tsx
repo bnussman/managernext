@@ -1,4 +1,4 @@
-import { useLinodesQuery, useLinodeTypesQuery } from "../queries/linodes";
+import { useLinodesQuery } from "../queries/linodes";
 import { Loading } from "../components/Loading";
 import { Error } from "../components/Error";
 import { Pagination } from "../components/Pagination";
@@ -43,7 +43,6 @@ export const statusMap: Record<Linode["status"], BoxProps["bgColor"]> = {
 
 export function Linodes() {
   const navigate = useNavigate();
-  const { data: types, isLoading: isTypesLoading } = useLinodeTypesQuery();
   const {
     page,
     pageSize,
@@ -64,7 +63,8 @@ export function Linodes() {
       {
         label: "ID",
         key: 'id',
-        filterable: true
+        filterable: true,
+        hidden: true,
       },
       {
         label: "Label",
@@ -118,7 +118,7 @@ export function Linodes() {
     { '+order': order, '+order_by': orderBy }
   );
 
-  if (isLoading || isTypesLoading) {
+  if (isLoading) {
     return <Loading />;
   }
 
