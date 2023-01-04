@@ -1,27 +1,16 @@
 import { useLinodesQuery, useLinodeTypesQuery } from "../queries/linodes";
-import { Loading } from "../components/Loading";
-import { Error } from "../components/Error";
-import { Pagination } from "../components/Pagination";
 import { Linode } from "@linode/api-v4";
-import { AddIcon, SettingsIcon } from "@chakra-ui/icons";
-import { ColumnModal } from "../components/ColumnModal";
+import { AddIcon } from "@chakra-ui/icons";
 import { Indicator } from "../components/Indicator";
-import { useTable } from "../utils/useTable";
 import { useNavigate } from "react-router-dom";
 import { Menu } from "./Menu";
+import { Column } from "../utils/useColumns";
+import { Table } from "../utils/Table";
 import {
   Button,
   Heading,
   HStack,
-  IconButton,
   Spacer,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
   Text,
   BoxProps,
   Stack,
@@ -44,154 +33,75 @@ export const statusMap: Record<Linode["status"], BoxProps["bgColor"]> = {
 
 export function Linodes() {
   const navigate = useNavigate();
-  const {
-    page,
-    pageSize,
-    handlePageChange,
-    handlePageSizeChange,
-    order,
-    orderBy,
-    handleOrderBy,
-    columns,
-    handleToggleColumnHidden,
-    isOpen,
-    onClose,
-    onOpen,
-    compact,
-    handleToggleCompact
-  } = useTable<Linode>({
-    columns: [
-      {
-        label: "ID",
-        key: 'id',
-        filterable: true,
-        hidden: true,
+  const columns: Column<Linode>[] = [
+    {
+      label: "ID",
+      key: 'id',
+      filterable: true,
+      hidden: true,
+    },
+    {
+      label: "Label",
+      key: 'label',
+      filterable: true
+    },
+    {
+      label: "Status",
+      key: 'status',
+      transform({ status }) {
+        return (
+          <HStack>
+            <Indicator color={statusMap[status]} />
+            <Text textTransform="capitalize">{status.replaceAll('_', ' ')}</Text>
+          </HStack>
+        );
       },
-      {
-        label: "Label",
-        key: 'label',
-        filterable: true
+    },
+    {
+      label: "Type",
+      key: 'type',
+      hidden: true,
+      filterable: true,
+      transform({ type }) {
+        const Type = () => {
+          const { data: types } = useLinodeTypesQuery();
+          return <p>{types?.data.find(t => t.id === type)?.label ?? "Unknown Plan"}</p>;
+        };
+        return <Type />
       },
-      {
-        label: "Status",
-        key: 'status',
-        transform({ status }) {
-          return (
-            <HStack>
-              <Indicator color={statusMap[status]} />
-              <Text textTransform="capitalize">{status.replaceAll('_', ' ')}</Text>
-            </HStack>
-          );
-        },
+    },
+    {
+      label: "IPv4",
+      key: 'ipv4',
+      transform({ ipv4 }) {
+        return ipv4[0];
       },
-      {
-        label: "Type",
-        key: 'type',
-        hidden: true,
-        filterable: true,
-        transform({ type }) {
-          const Type = () => {
-            const { data: types } = useLinodeTypesQuery();
-            return <p>{types?.data.find(t => t.id === type)?.label ?? "Unknown Plan"}</p>;
-          };
-          return <Type />
-        },
-      },
-      {
-        label: "IPv4",
-        key: 'ipv4',
-        transform({ ipv4 }) {
-          return ipv4[0];
-        },
-      },
-      {
-        label: "Created",
-        key: 'created',
-        filterable: true
-      },
-      {
-        label: "Actions",
-        tdProps: { p: 0, textAlign: 'center' },
-        hideLabel: true,
-        transform(linode, compact) {
-          return (
-            <Menu linode={linode} compact={compact} />
-          );
-        }
-      },
-    ]
-  });
-
-  const { data, isLoading, error } = useLinodesQuery(
-    { page, page_size: pageSize },
-    { '+order': order, '+order_by': orderBy }
-  );
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (error) {
-    return <Error title="Unable to load your Linodes" />;
-  }
+    },
+    {
+      label: "Created",
+      key: 'created',
+      filterable: true
+    },
+    {
+      label: "Actions",
+      tdProps: { p: 0, textAlign: 'center' },
+      hideLabel: true,
+      transform(linode, compact) {
+        return (
+          <Menu linode={linode} compact={compact} />
+        );
+      }
+    },
+  ]
 
   return (
     <Stack>
       <HStack>
         <Heading letterSpacing="tight" size="lg">Linodes</Heading>
         <Spacer />
-        <IconButton onClick={onOpen} icon={<SettingsIcon />} aria-label="Table Settings" />
         <Button onClick={() => navigate("/linodes/create")} rightIcon={<AddIcon />}>Create Linode</Button>
       </HStack>
-      <TableContainer>
-        <Table size={compact ? 'sm' : 'md'}>
-          <Thead>
-            <Tr>
-              {columns.filter(column => !column.hidden).map((column) => (
-                <Th
-                  key={column.label}
-                  onClick={column.filterable ? () => handleOrderBy(column.key) : undefined}
-                  cursor={column.filterable ? "pointer" : undefined}
-                >
-                  {column.hideLabel ? null : column.label}
-                  {column.key && orderBy === column.key ? (order === 'asc' ? " ⬆️" : " ⬇️"): null}
-                </Th>
-              ))}
-            </Tr>
-          </Thead>
-          <Tbody>
-            {data.data.map((linode) => (
-              <Tr
-                key={linode.id}
-                onClick={() => navigate(`/linodes/${linode.id}`)}
-                cursor="pointer"
-                _hover={{ bgColor: 'gray.50' }}
-                _dark={{ _hover: { bgColor: "rgb(20, 24, 28)" } }}
-              >
-                {columns.filter(column => !column.hidden).map((column) => (
-                  <Td {...column.tdProps} key={`${linode.id}-${column.key}`}>{column.transform ? column.transform(linode, compact) : String(linode[column.key as keyof Linode])}</Td>
-                ))}
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
-      <Pagination
-        page={page}
-        pageSize={pageSize}
-        setPage={handlePageChange}
-        setPageSize={handlePageSizeChange}
-        results={data?.results}
-        onSettingsOpen={onOpen}
-      />
-      <ColumnModal
-        isOpen={isOpen}
-        onClose={onClose}
-        columns={columns}
-        compact={compact}
-        handleToggleColumnHidden={handleToggleColumnHidden}
-        handleToggleCompact={handleToggleCompact}
-      />
+      <Table columns={columns} query={useLinodesQuery} />
     </Stack>
   );
 };
