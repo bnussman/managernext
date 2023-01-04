@@ -21,7 +21,7 @@ export function CaptureSnapshotModal({ isOpen, onClose, linodeId }: Props) {
   });
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Capture Snapshot</ModalHeader>
@@ -35,7 +35,7 @@ export function CaptureSnapshotModal({ isOpen, onClose, linodeId }: Props) {
         </ModalBody>
         <ModalFooter>
           <Button
-            colorScheme='blue'
+            colorScheme='brand'
             onClick={onSubmit}
             isLoading={isLoading}
             isDisabled={!isDirty}
