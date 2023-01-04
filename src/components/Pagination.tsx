@@ -28,10 +28,9 @@ interface PageButtonProps {
 
 function PageButton(props: PageButtonProps) {
   const { onClick, active, children } = props;
-  const [isDesktop] = useMediaQuery('(min-width: 800px)')
 
   return (
-    <Button onClick={onClick} disabled={active} size={!isDesktop ? "sm": undefined}>
+    <Button onClick={onClick} disabled={active}>
       {children}
     </Button>
   );
