@@ -43,7 +43,5 @@ export function useSearch(query: string) {
     return acc;
   }, []);
 
-  console.log(pages);
-
   return { canLoadMore, isLoading, pages, loadMore };
 }

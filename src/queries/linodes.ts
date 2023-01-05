@@ -180,7 +180,17 @@ export const useCreateLinodeMutation = () => {
 export const useInfinateLinodesSearchQuery = (query: string) => {
   return useInfiniteQuery<ResourcePage<Linode>, APIError[]>({
     queryKey: [queryKey, 'search', query],
-    queryFn: ({ pageParam }) => getLinodes({ page: pageParam }, { label: { '+contains': query } }),
+    queryFn: ({ pageParam }) => getLinodes(
+      { page: pageParam },
+      {
+        '+or': [
+          { id: query },
+          { label: { '+contains': query } },
+          { ipv4: { '+contains': query } },
+          { tags: { '+contains': query } },
+        ],
+      }
+    ),
     getNextPageParam: ({ page, pages }) => {
       if (page === pages) {
         return undefined;
