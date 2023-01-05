@@ -1,4 +1,4 @@
-import { useMutation, useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { Config, createLinode, CreateLinodeRequest, Disk, getLinode, getLinodeBackups, getLinodeConfigs, getLinodeDisks, getLinodeIPs, getLinodes, getLinodeStats, getLinodeTypes, getLinodeVolumes, Linode, LinodeBackup, LinodeBackupsResponse, linodeBoot, LinodeIPsResponse, linodeReboot, linodeShutdown, LinodeType, Stats, takeSnapshot, updateLinode, Volume } from "@linode/api-v4";
 import { APIError, ResourcePage } from "@linode/api-v4/lib/types";
 import { Params } from "../utils/types";
@@ -175,4 +175,18 @@ export const useCreateLinodeMutation = () => {
       },
     }
   );
+};
+
+export const useInfinateLinodesSearchQuery = (query: string) => {
+  return useInfiniteQuery<ResourcePage<Linode>, APIError[]>({
+    queryKey: [queryKey, 'search', query],
+    queryFn: ({ pageParam }) => getLinodes({ page: pageParam }, { label: { '+contains': query } }),
+    getNextPageParam: ({ page, pages }) => {
+      if (page === pages) {
+        return undefined;
+      }
+      return page + 1;
+    },
+    enabled: query !== ""
+  });
 };
