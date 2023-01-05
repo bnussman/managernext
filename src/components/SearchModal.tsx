@@ -23,6 +23,7 @@ import {
   InputGroup,
   InputRightElement,
   IconButton,
+  Button,
 } from "@chakra-ui/react";
 
 interface Props {
@@ -50,7 +51,7 @@ export function SearchModal({ isOpen, onClose, onOpen }: Props) {
   const showSpinner = isLoading && enabled;
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} isCentered size="xl">
+    <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
@@ -86,10 +87,18 @@ export function SearchModal({ isOpen, onClose, onOpen }: Props) {
             )}
             {pages.map(({ linodes, kubernetes}) => (
               <>
-                {linodes.map(linode => (
+                {linodes.map((linode, idx) => (
                   <Card
+                    tabIndex={idx}
+                    aria-label={`linode ${linode.label}`}
                     p={2}
                     variant="outline"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        navigate(`/linodes/${linode.id}`)
+                        onClose();
+                      }
+                    }}
                     onClick={() => {
                       navigate(`/linodes/${linode.id}`)
                       onClose();

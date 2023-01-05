@@ -1,8 +1,17 @@
 import { getKubernetesClusters, KubernetesCluster } from "@linode/api-v4";
 import { APIError, ResourcePage } from "@linode/api-v4/lib/types";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, UseQueryOptions, useQuery } from "@tanstack/react-query";
+import { Params } from "../utils/types";
 
 const queryKey = 'kubernetes';
+
+export const useKubernetesClustersQuery = (params?: Params, filter?: any, options?: UseQueryOptions<ResourcePage<KubernetesCluster>, APIError[]>) => {
+  return useQuery<ResourcePage<KubernetesCluster>, APIError[]>(
+    [queryKey, "paginated", params, filter],
+    () => getKubernetesClusters(params, filter),
+    { keepPreviousData: true, ...options }
+  );
+};
 
 export const useInfinateKubernetesClusterSearchQuery = (query: string) => {
   return useInfiniteQuery<ResourcePage<KubernetesCluster>, APIError[]>({

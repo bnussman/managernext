@@ -11,6 +11,7 @@ import { NotFound } from "./components/NotFound";
 import { normalizeErrors } from "./utils/errors";
 import "@fontsource/poppins/400.css"
 import "@fontsource/poppins/700.css"
+import { KubernetesRouter } from "./kubernetes";
 
 baseRequest.interceptors.response.use(undefined, normalizeErrors);
 
@@ -34,6 +35,7 @@ function Main() {
       <Navigation />
       <Container maxW="container.xl" pt={20}>
         <Routes>
+          <Route path="/kubernetes/*" element={<KubernetesRouter />} />
           <Route path="/linodes/*" element={<LinodeRouter />} />
           <Route path="/" element={<Navigate to="/linodes" />} />
           <Route path="*" element={<NotFound />} />
