@@ -78,6 +78,10 @@ export function Linodes() {
       },
     },
     {
+      label: "Region",
+      key: 'region',
+    },
+    {
       label: "Created",
       key: 'created',
       filterable: true
