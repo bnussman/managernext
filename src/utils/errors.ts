@@ -1,4 +1,5 @@
 import { APIError } from "@linode/api-v4/lib/types";
+import { AxiosError } from "axios";
 
 export function getErrorFor(field: string, error?: APIError[] | null): string | null {
   if (!error) {
@@ -19,3 +20,10 @@ export function hasErrorFor(field: string, error?: APIError[] | null): boolean {
 
   return fieldError !== undefined;
 }
+
+export const normalizeErrors = (error: AxiosError<{ errors: APIError[] }>) => {
+  const errors: APIError[] = error.response?.data?.errors ?? [
+    { reason: "Unknown Error" },
+  ];
+  return Promise.reject(errors);
+};

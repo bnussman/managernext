@@ -1,3 +1,4 @@
+import { Center, Spinner } from "@chakra-ui/react";
 import { setToken } from "@linode/api-v4";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -40,7 +41,11 @@ export function OAuth() {
     navigate("/");
   }, []);
 
-  return <p>Logging In</p>;
+  return (
+    <Center>
+      <Spinner />
+    </Center>
+  );
 }
 
 export function useOAuth() {

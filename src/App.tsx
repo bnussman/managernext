@@ -7,18 +7,10 @@ import { theme } from "./utils/theme";
 import { LinodeRouter } from "./linodes";
 import { useEventsPollingQuery } from "./queries/events";
 import { baseRequest } from "@linode/api-v4";
-import { AxiosError } from "axios";
-import { APIError } from "@linode/api-v4/lib/types";
 import { NotFound } from "./components/NotFound";
+import { normalizeErrors } from "./utils/errors";
 import "@fontsource/poppins/400.css"
 import "@fontsource/poppins/700.css"
-
-const normalizeErrors = (error: AxiosError<{ errors: APIError[] }>) => {
-  const errors: APIError[] = error.response?.data?.errors ?? [
-    { reason: "Unknown Error" },
-  ];
-  return Promise.reject(errors);
-};
 
 baseRequest.interceptors.response.use(undefined, normalizeErrors);
 
@@ -29,19 +21,22 @@ function Main() {
   
   useEventsPollingQuery();
 
+  if (isLoading) {
+    return (
+      <Routes>
+        <Route path="/callback" element={<OAuth />} />
+      </Routes>
+    );
+  }
+
   return (
     <>
-      {!isLoading && <Navigation />}
+      <Navigation />
       <Container maxW="container.xl" pt={20}>
         <Routes>
-          <Route path="/callback" element={<OAuth />} />
-          {!isLoading && (
-            <>
-              <Route path="/linodes/*" element={<LinodeRouter />} />
-              <Route path="/" element={<Navigate to="/linodes" />} />
-              <Route path="*" element={<NotFound />} />
-            </>
-          )}
+          <Route path="/linodes/*" element={<LinodeRouter />} />
+          <Route path="/" element={<Navigate to="/linodes" />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Container>
     </>
