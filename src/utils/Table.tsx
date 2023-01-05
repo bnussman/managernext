@@ -44,7 +44,7 @@ export function Table<T extends { id: string | number }>(props: Props<T>) {
     }
 
     return {
-      onClick: () => navigate(`/${props.entity}s/${entity.id}`),
+      onClick: () => navigate(`/${props.entity}/${entity.id}`),
       cursor: "pointer",
       _hover: { bgColor: 'gray.50' },
       _dark: { _hover: { bgColor: "rgb(20, 24, 28)" } },
