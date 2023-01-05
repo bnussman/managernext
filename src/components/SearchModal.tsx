@@ -61,9 +61,9 @@ export function SearchModal({ isOpen, onClose, onOpen }: Props) {
           </HStack>
         </ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
+        <ModalBody pb={8}>
           <Stack spacing={2}>
-          <InputGroup>
+            <InputGroup>
               <Input
                 autoFocus
                 value={query}
@@ -79,13 +79,12 @@ export function SearchModal({ isOpen, onClose, onOpen }: Props) {
                 />
               </InputRightElement>
             </InputGroup>
-            {false && <Divider />}
             {showSpinner && (
               <Center>
-                <Spinner />
+                <Spinner mt={2} />
               </Center>
             )}
-            {pages.map(({ linodes, kubernetes}) => (
+            {pages.map(({ linodes, kubernetes }) => (
               <>
                 {linodes.map((linode, idx) => (
                   <Card
@@ -110,10 +109,17 @@ export function SearchModal({ isOpen, onClose, onOpen }: Props) {
                     {linode.label}
                   </Card>
                 ))}
-                 {kubernetes.map(cluster => (
+                {kubernetes.map((cluster, idx) => (
                   <Card
+                    tabIndex={idx}
                     p={2}
                     variant="outline"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        navigate(`/kubernetes/${cluster.id}`)
+                        onClose();
+                      }
+                    }}
                     onClick={() => {
                       navigate(`/kubernetes/${cluster.id}`)
                       onClose();
@@ -130,7 +136,6 @@ export function SearchModal({ isOpen, onClose, onOpen }: Props) {
           </Stack>
           {canLoadMore && <Waypoint onEnter={loadMore} />}
         </ModalBody>
-        <ModalFooter></ModalFooter>
       </ModalContent>
     </Modal>
   );
