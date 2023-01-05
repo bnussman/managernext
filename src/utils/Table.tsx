@@ -16,6 +16,7 @@ interface Props<T> {
   columns: Column<T>[];
   query: (params: Params, filter: any) => UseQueryResult<ResourcePage<T>>;
   entity: string;
+  clickable?: boolean;
 }
 
 export function Table<T extends { id: string | number }>(props: Props<T>) {
@@ -36,6 +37,19 @@ export function Table<T extends { id: string | number }>(props: Props<T>) {
     compact,
     handleToggleCompact
   } = useTable<T>({ columns: props.columns });
+
+  const getClickableProps = (entity: T) => {
+    if (!props.clickable) {
+      return {};
+    }
+
+    return {
+      onClick: () => navigate(`/${props.entity}s/${entity.id}`),
+      cursor: "pointer",
+      _hover: { bgColor: 'gray.50' },
+      _dark: { _hover: { bgColor: "rgb(20, 24, 28)" } },
+    };
+  };
   
   const { data, isLoading, error } = props.query(
     { page, page_size: pageSize },
@@ -72,10 +86,7 @@ export function Table<T extends { id: string | number }>(props: Props<T>) {
             {data?.data.map((entity) => (
               <Tr
                 key={entity.id}
-                onClick={() => navigate(`/${props.entity}s/${entity.id}`)}
-                cursor="pointer"
-                _hover={{ bgColor: 'gray.50' }}
-                _dark={{ _hover: { bgColor: "rgb(20, 24, 28)" } }}
+                {...getClickableProps(entity)}
               >
                 {columns.filter(column => !column.hidden).map((column) => (
                   <Td {...column.tdProps} key={`${entity.id}-${column.key as string}`}>{column.transform ? column.transform(entity, compact) : String(entity[column.key as keyof T])}</Td>
