@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { CloseIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import { useSearch } from "../utils/useSearch";
@@ -11,19 +11,16 @@ import {
   ModalCloseButton,
   ModalBody,
   Input,
-  ModalFooter,
   Kbd,
   HStack,
   Heading,
   Stack,
   Card,
-  Divider,
   Spinner,
   Center,
   InputGroup,
   InputRightElement,
   IconButton,
-  Button,
 } from "@chakra-ui/react";
 
 interface Props {
@@ -84,10 +81,11 @@ export function SearchModal({ isOpen, onClose, onOpen }: Props) {
                 <Spinner mt={2} />
               </Center>
             )}
-            {pages.map(({ linodes, kubernetes }) => (
-              <>
+            {pages.map(({ linodes, kubernetes }, idx) => (
+              <Fragment key={`page-${idx}`}>
                 {linodes.map((linode, idx) => (
                   <Card
+                    key={`linode-${linode.id}`}
                     tabIndex={idx}
                     aria-label={`linode ${linode.label}`}
                     p={2}
@@ -111,6 +109,7 @@ export function SearchModal({ isOpen, onClose, onOpen }: Props) {
                 ))}
                 {kubernetes.map((cluster, idx) => (
                   <Card
+                    key={`cluster-${cluster.id}`}
                     tabIndex={idx}
                     p={2}
                     variant="outline"
@@ -131,7 +130,7 @@ export function SearchModal({ isOpen, onClose, onOpen }: Props) {
                     {cluster.label}
                   </Card>
                 ))}
-              </>
+              </Fragment>
             ))}
           </Stack>
           {canLoadMore && <Waypoint onEnter={loadMore} />}

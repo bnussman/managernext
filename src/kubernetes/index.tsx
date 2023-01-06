@@ -1,10 +1,12 @@
 import { Route, Routes } from "react-router-dom";
-import { Kubernetes } from "./Kubernetes";
+import { Cluster } from "./Cluster";
+import { Clusters } from "./Clusters";
 
 export function KubernetesRouter() {
   return (
     <Routes>
-      <Route path="/" element={<Kubernetes />} />
+      <Route path="/:id" element={<Cluster />} />
+      <Route path="/" element={<Clusters />} />
     </Routes>
   );
 }

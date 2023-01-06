@@ -1,11 +1,11 @@
 import { useLinodesQuery, useLinodeTypesQuery } from "../queries/linodes";
 import { Linode } from "@linode/api-v4";
-import { AddIcon } from "@chakra-ui/icons";
 import { Indicator } from "../components/Indicator";
 import { useNavigate } from "react-router-dom";
 import { Menu } from "./Menu";
 import { Column } from "../utils/useColumns";
 import { Table } from "../utils/Table";
+import { dcDisplayNames } from "../utils/constants";
 import {
   Button,
   Heading,
@@ -65,7 +65,7 @@ export function Linodes() {
       transform({ type }) {
         const Type = () => {
           const { data: types } = useLinodeTypesQuery();
-          return <p>{types?.data.find(t => t.id === type)?.label ?? "Unknown Plan"}</p>;
+          return <p>{types?.data.find(t => t.id === type)?.label ?? type}</p>;
         };
         return <Type />
       },
@@ -80,6 +80,15 @@ export function Linodes() {
     {
       label: "Region",
       key: 'region',
+      transform({ region }) {
+        return dcDisplayNames[region] ?? region;
+      },
+    },
+    {
+      label: "Updated",
+      key: 'updated',
+      filterable: true,
+      hidden: true,
     },
     {
       label: "Created",
@@ -103,7 +112,9 @@ export function Linodes() {
       <HStack>
         <Heading letterSpacing="tight" size="lg">Linodes</Heading>
         <Spacer />
-        <Button onClick={() => navigate("/linodes/create")} rightIcon={<AddIcon />}>Create Linode</Button>
+        <Button onClick={() => navigate("/linodes/create")}>
+          Create Linode
+        </Button>
       </HStack>
       <Table entity="linodes" columns={columns} query={useLinodesQuery} clickable />
     </Stack>

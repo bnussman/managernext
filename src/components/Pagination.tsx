@@ -10,7 +10,8 @@ interface PaginationProps {
   pageSize: number;
   setPage: (page: number) => void;
   setPageSize: (size: number) => void;
-  onSettingsOpen: () => void;
+  onSettingsOpen?: () => void;
+  type?: string;
 }
 
 interface DirectionButtonProps {
@@ -55,7 +56,8 @@ export function Pagination({
   setPage,
   pageSize,
   setPageSize,
-  onSettingsOpen
+  onSettingsOpen,
+  type
 }: PaginationProps) {
 
   const pages = [],
@@ -110,7 +112,7 @@ export function Pagination({
     <Box mb={2} mt={2}>
       <Flex align="center">
         <Text noOfLines={1}>
-          {`Showing ${(page - 1) * limit + 1} to ${page * limit <= results ? page * limit : results}	of ${results} results`}
+          {`Showing ${(page - 1) * limit + 1} to ${page * limit <= results ? page * limit : results}	of ${results} ${type ?? 'results'}`}
         </Text>
         <Spacer />
         <HStack>
@@ -123,7 +125,9 @@ export function Pagination({
             <option value={100}>100</option>
             <option value={500}>500</option>
           </Select>
-          <IconButton onClick={onSettingsOpen} icon={<SettingsIcon />} aria-label="Table Settings" />
+          {onSettingsOpen !== undefined && (
+            <IconButton onClick={onSettingsOpen} icon={<SettingsIcon />} aria-label="Table Settings" />
+          )}
           <ButtonGroup isAttached>
             <DirectionButton direction='left' disabled={page === 1} onClick={decrement} />
             {

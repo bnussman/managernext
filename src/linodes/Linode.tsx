@@ -1,4 +1,4 @@
-import { Box, Card, CardBody, Code, Heading, HStack, ListItem, Spacer, Stack, Stat, StatHelpText, StatLabel, StatNumber, Tab, TabList, TabPanel, TabPanels, Tabs, Tag, Text, UnorderedList, Wrap, WrapItem } from '@chakra-ui/react';
+import { Box, Card, CardBody, Code, Heading, HStack, Spacer, Stack, Stat, StatHelpText, StatLabel, StatNumber, Tab, TabList, TabPanel, TabPanels, Tabs, Text, Wrap, WrapItem } from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Loading } from '../components/Loading';
 import { Error } from '../components/Error';
@@ -80,7 +80,7 @@ export function Linode() {
               <WrapItem>
                 <Stat>
                   <StatLabel>Region</StatLabel>
-                  <StatNumber>{dcDisplayNames[linode.region]}</StatNumber>
+                  <StatNumber>{dcDisplayNames[linode.region] ?? linode.region}</StatNumber>
                   <StatHelpText textTransform="uppercase">{linode.region.split("-")[0]}</StatHelpText>
                 </Stat>
               </WrapItem>

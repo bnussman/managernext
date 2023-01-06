@@ -1,6 +1,6 @@
 import { KubernetesCluster } from "@linode/api-v4";
+import { dcDisplayNames } from "../utils/constants";
 import { useKubernetesClustersQuery } from "../queries/kubernetes";
-import { AddIcon } from "@chakra-ui/icons";
 import { Indicator } from "../components/Indicator";
 import { useNavigate } from "react-router-dom";
 import { Column } from "../utils/useColumns";
@@ -19,7 +19,7 @@ const statusMap: Record<KubernetesCluster["status"], BoxProps["bgColor"]> = {
   ready: 'green.300',
 }
 
-export function Kubernetes() {
+export function Clusters() {
   const navigate = useNavigate();
   const columns: Column<KubernetesCluster>[] = [
     {
@@ -46,8 +46,29 @@ export function Kubernetes() {
       },
     },
     {
+      label: "Version",
+      key: 'k8s_version',
+      filterable: true
+    },
+    {
+      label: "HA",
+      key: 'control_plane',
+      transform({ control_plane }) {
+        return <Indicator color={control_plane.high_availability ? 'green.300' : 'red.300'} />
+      },
+    },
+    {
       label: "Region",
       key: 'region',
+      transform({ region }) {
+        return dcDisplayNames[region] ?? region;
+      },
+    },
+    {
+      label: "Updated",
+      key: 'updated',
+      filterable: true,
+      hidden: true,
     },
     {
       label: "Created",
@@ -61,7 +82,9 @@ export function Kubernetes() {
       <HStack>
         <Heading letterSpacing="tight" size="lg">Kubernetes Clusters</Heading>
         <Spacer />
-        <Button onClick={() => navigate("/kubernetes/create")} rightIcon={<AddIcon />}>Create Cluster</Button>
+        <Button onClick={() => navigate("/kubernetes/create")}>
+          Create Cluster
+        </Button>
       </HStack>
       <Table entity="kubernetes" columns={columns} query={useKubernetesClustersQuery} clickable />
     </Stack>

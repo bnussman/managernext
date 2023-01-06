@@ -14,7 +14,7 @@ export const useLinodesQuery = (params?: Params, filter?: any, options?: UseQuer
   );
 };
 
-export const useLinodeTypesQuery = (params?: Params) => {
+export const useLinodeTypesQuery = (params: Params = { page_size: 500 }) => {
   return useQuery<ResourcePage<LinodeType>, APIError[]>(
     [queryKey, "types"],
     () => getLinodeTypes(params),

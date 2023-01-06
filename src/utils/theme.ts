@@ -21,7 +21,7 @@ export const theme = extendTheme({
       700: "#007E52",
       800: "#00664C",
       900: "#005448",
-    }
+    },
   },
   styles: {
     global: (props: StyleFunctionProps) => ({
