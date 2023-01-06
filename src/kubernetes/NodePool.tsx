@@ -8,12 +8,13 @@ import { useLinodesQuery, useLinodeTypesQuery } from "../queries/linodes";
 
 interface Props {
   pool: KubeNodePoolResponse;
+  clusterId: number;
   onRecycleNode: (id: string) => void;
   onRecyclePool: (id: number) => void;
   onDeletePool: (id: number) => void;
 }
 
-export function NodePool({pool, onRecycleNode, onRecyclePool, onDeletePool }: Props) {
+export function NodePool({pool, clusterId, onRecycleNode, onRecyclePool, onDeletePool }: Props) {
   const { type: typeId, nodes, count, autoscaler } = pool;
   const { data: types } = useLinodeTypesQuery();
 
@@ -76,6 +77,7 @@ export function NodePool({pool, onRecycleNode, onRecyclePool, onDeletePool }: Pr
             <Tbody>
               {nodes.map((node) => {
                 const linode = linodes?.data.find(l => l.id === node.instance_id);
+                // const linode = undefined;
 
                 return (
                   <Tr
@@ -85,8 +87,8 @@ export function NodePool({pool, onRecycleNode, onRecyclePool, onDeletePool }: Pr
                     _hover={{ bgColor: 'gray.50' }}
                     _dark={{ _hover: { bgColor: "rgb(20, 24, 28)" } }}
                   >
-                    <Td>{linode?.label ?? "Loading"}</Td>
-                    <Td>{linode?.ipv4[0] ?? "Loading"}</Td>
+                    <Td>{linode?.label ?? `lke${clusterId}-${node.id}`}</Td>
+                    <Td>{linode?.ipv4[0] ?? "000.000.000.000"}</Td>
                     <Td>
                       <HStack>
                         <Indicator color={statusMap[linode?.status ?? 'offline']} />

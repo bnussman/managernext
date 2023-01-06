@@ -68,6 +68,7 @@ export function NodePools({ clusterId }: Props) {
             <NodePool
               key={pool.id}
               pool={pool}
+              clusterId={clusterId}
               onRecycleNode={onRecycleNode}
               onRecyclePool={onRecyclePool}
               onDeletePool={onDeletePool}
