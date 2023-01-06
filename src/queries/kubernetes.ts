@@ -1,4 +1,4 @@
-import { deleteNodePool, getKubernetesCluster, getKubernetesClusters, getNodePools, KubeNodePoolResponse, KubernetesCluster, recycleAllNodes, recycleClusterNodes, recycleNode } from "@linode/api-v4";
+import { deleteNodePool, getKubernetesCluster, getKubernetesClusterEndpoints, getKubernetesClusters, getNodePools, KubeNodePoolResponse, KubernetesCluster, KubernetesEndpointResponse, recycleAllNodes, recycleClusterNodes, recycleNode } from "@linode/api-v4";
 import { APIError, ResourcePage } from "@linode/api-v4/lib/types";
 import { useInfiniteQuery, UseQueryOptions, useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient } from "../App";
@@ -79,4 +79,16 @@ export const useDeleteNodePoolMutation = (
       queryClient.invalidateQueries([queryKey, clusterId, 'pools']);
     },
   });
+};
+
+export const useKubernetesClusterAPIEndpointsQuery = (id: number) => {
+  return useQuery<ResourcePage<KubernetesEndpointResponse>, APIError[]>(
+    [queryKey, id, 'endpoints'],
+    () => getKubernetesClusterEndpoints(id),
+    {
+      retry: true,
+      retryDelay: 5000,
+      keepPreviousData: true,
+    }
+  );
 };

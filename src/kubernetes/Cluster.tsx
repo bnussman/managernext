@@ -1,9 +1,9 @@
-import { Card, CardBody, Heading, Text, HStack, Spacer, Stack, Stat, StatHelpText, StatLabel, StatNumber, Wrap, WrapItem, Button } from "@chakra-ui/react";
+import { Card, CardBody, Heading, Text, HStack, Spacer, Stack, Stat, StatHelpText, StatLabel, StatNumber, Wrap, WrapItem, Button, Box, Code } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { Indicator } from "../components/Indicator";
 import { Loading } from "../components/Loading";
 import { Error } from "../components/Error";
-import { useKubernetesClusterQuery } from "../queries/kubernetes";
+import { useKubernetesClusterAPIEndpointsQuery, useKubernetesClusterQuery } from "../queries/kubernetes";
 import { dcDisplayNames } from "../utils/constants";
 import { NodePools } from "./NodePools";
 
@@ -11,6 +11,7 @@ export function Cluster() {
   const { id } = useParams();
 
   const { data: cluster, isLoading, error } = useKubernetesClusterQuery(Number(id));
+  const { data: endpoints } = useKubernetesClusterAPIEndpointsQuery(Number(id));
 
   if (isLoading) {
     return <Loading />
@@ -52,6 +53,18 @@ export function Cluster() {
                   <StatNumber>{dcDisplayNames[cluster.region] ?? cluster.region}</StatNumber>
                   <StatHelpText textTransform="uppercase">{cluster.region.split("-")[0]}</StatHelpText>
                 </Stat>
+              </WrapItem>
+              <WrapItem>
+                <Box>
+                  <Heading size="sm">Endpoints</Heading>
+                  <Text>
+                    {endpoints?.data.map(({ endpoint }) => (
+                      <Text key={endpoint}>
+                        <Code fontSize="xs">{endpoint}</Code>
+                      </Text>
+                    ))}
+                  </Text>
+                </Box>
               </WrapItem>
             </Wrap>
           </Stack>
