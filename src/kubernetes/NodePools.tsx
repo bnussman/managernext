@@ -1,4 +1,4 @@
-import { Button, Card, CardBody, CardFooter, CardHeader, Heading, HStack, Spacer, Stack, useDisclosure } from "@chakra-ui/react";
+import { Button, Card, CardBody, CardHeader, Heading, HStack, Spacer, Stack, useDisclosure } from "@chakra-ui/react";
 import { Loading } from "../components/Loading";
 import { Error } from "../components/Error";
 import { useKubernetesNodePoolsQuery } from "../queries/kubernetes";
@@ -73,14 +73,19 @@ export function NodePools({ clusterId }: Props) {
       <RecycleKubernetesClusterDialog
         isOpen={recycleClusterDialog.isOpen}
         onClose={recycleClusterDialog.onClose}
+        clusterId={clusterId}
       />
       <RecycleNodePoolDialog
         isOpen={recyclePoolDialog.isOpen}
         onClose={recyclePoolDialog.onClose}
+        clusterId={clusterId}
+        nodePoolId={selectedPool}
       />
       <RecycleNodeDialog
         isOpen={recycleNodeDialog.isOpen}
         onClose={recycleNodeDialog.onClose}
+        clusterId={clusterId}
+        nodeId={selectedNode}
       />
     </Card>
   );
