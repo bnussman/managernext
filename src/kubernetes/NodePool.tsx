@@ -6,9 +6,17 @@ import { Indicator } from "../components/Indicator";
 import { statusMap } from "../linodes/Linodes";
 import { useLinodesQuery, useLinodeTypesQuery } from "../queries/linodes";
 
-export function NodePool({ type: typeId, nodes, count, autoscaler }: KubeNodePoolResponse) {
-  const navigate = useNavigate();
+interface Props {
+  pool: KubeNodePoolResponse;
+  onRecycleNode: (id: string) => void;
+  onRecyclePool: (id: number) => void;
+}
+
+export function NodePool({pool, onRecycleNode, onRecyclePool }: Props) {
+  const { type: typeId, nodes, count, autoscaler } = pool;
   const { data: types } = useLinodeTypesQuery();
+
+  const navigate = useNavigate();
 
   const type = types?.data.find((t) => t.id === typeId)?.label ?? typeId;
 
@@ -43,7 +51,7 @@ export function NodePool({ type: typeId, nodes, count, autoscaler }: KubeNodePoo
                 <Button>Resize</Button>
               </WrapItem>
               <WrapItem>
-                <Button>Recycle</Button>
+                <Button onClick={() => onRecyclePool(pool.id)}>Recycle</Button>
               </WrapItem>
               <WrapItem>
                 <Button>Delete</Button>
@@ -93,6 +101,7 @@ export function NodePool({ type: typeId, nodes, count, autoscaler }: KubeNodePoo
                     <Td p={0} pr={2} textAlign="right">
                       <IconButton size="sm" icon={<RepeatIcon />} aria-label={`Recycle node ${node.id}`} onClick={(e) => {
                         e.stopPropagation();
+                        onRecycleNode(node.id);
                       }} />
                     </Td>
                   </Tr>

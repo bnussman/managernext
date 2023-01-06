@@ -6,6 +6,9 @@ import { NodePool } from "./NodePool";
 import { usePagination } from "../utils/usePagination";
 import { Pagination } from "../components/Pagination";
 import { RecycleKubernetesClusterDialog } from "./RecycleKubernetesClusterDialog";
+import { RecycleNodePoolDialog } from "./RecycleNodePoolDialog";
+import { RecycleNodeDialog } from "./RecycleNodeDialog";
+import { useState } from "react";
 
 interface Props {
   clusterId: number;
@@ -16,6 +19,21 @@ export function NodePools({ clusterId }: Props) {
   const { data, isLoading, error } = useKubernetesNodePoolsQuery(clusterId, { page, page_size: pageSize });
 
   const recycleClusterDialog = useDisclosure();
+  const recyclePoolDialog = useDisclosure();
+  const recycleNodeDialog = useDisclosure();
+
+  const [selectedPool, setSelectedPool] = useState<number>();
+  const [selectedNode, setSelectedNode] = useState<string>();
+
+  const onRecycleNode = (id: string) => {
+    setSelectedNode(id);
+    recycleNodeDialog.onOpen();
+  };
+
+  const onRecyclePool = (id: number) => {
+    setSelectedPool(id);
+    recyclePoolDialog.onOpen();
+  };
 
   if (isLoading) {
     return <Loading />
@@ -40,7 +58,7 @@ export function NodePools({ clusterId }: Props) {
       <CardBody>
         <Stack spacing={4}>
           {data.data.map((pool) => (
-            <NodePool key={pool.id} {...pool} />
+            <NodePool key={pool.id} pool={pool} onRecycleNode={onRecycleNode} onRecyclePool={onRecyclePool} />
           ))}
           <Pagination
             page={page}
@@ -55,6 +73,14 @@ export function NodePools({ clusterId }: Props) {
       <RecycleKubernetesClusterDialog
         isOpen={recycleClusterDialog.isOpen}
         onClose={recycleClusterDialog.onClose}
+      />
+      <RecycleNodePoolDialog
+        isOpen={recyclePoolDialog.isOpen}
+        onClose={recyclePoolDialog.onClose}
+      />
+      <RecycleNodeDialog
+        isOpen={recycleNodeDialog.isOpen}
+        onClose={recycleNodeDialog.onClose}
       />
     </Card>
   );
