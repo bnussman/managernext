@@ -10,9 +10,10 @@ interface Props {
   pool: KubeNodePoolResponse;
   onRecycleNode: (id: string) => void;
   onRecyclePool: (id: number) => void;
+  onDeletePool: (id: number) => void;
 }
 
-export function NodePool({pool, onRecycleNode, onRecyclePool }: Props) {
+export function NodePool({pool, onRecycleNode, onRecyclePool, onDeletePool }: Props) {
   const { type: typeId, nodes, count, autoscaler } = pool;
   const { data: types } = useLinodeTypesQuery();
 
@@ -54,7 +55,7 @@ export function NodePool({pool, onRecycleNode, onRecyclePool }: Props) {
                 <Button onClick={() => onRecyclePool(pool.id)}>Recycle</Button>
               </WrapItem>
               <WrapItem>
-                <Button>Delete</Button>
+                <Button onClick={() => onDeletePool(pool.id)}>Delete</Button>
               </WrapItem>
             </Wrap>
           </WrapItem>
@@ -95,7 +96,7 @@ export function NodePool({pool, onRecycleNode, onRecyclePool }: Props) {
                     <Td>
                       <HStack>
                         <Indicator color={node.status === 'ready' ? 'green.300' : "orange.300"} />
-                        <Text textTransform="capitalize">{node.status}</Text>
+                        <Text textTransform="capitalize">{node.status.replaceAll("_", " ")}</Text>
                       </HStack>
                     </Td>
                     <Td p={0} pr={2} textAlign="right">

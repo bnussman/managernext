@@ -9,6 +9,7 @@ import { RecycleKubernetesClusterDialog } from "./RecycleKubernetesClusterDialog
 import { RecycleNodePoolDialog } from "./RecycleNodePoolDialog";
 import { RecycleNodeDialog } from "./RecycleNodeDialog";
 import { useState } from "react";
+import { DeleteNodePoolDialog } from "./DeleteNodePoolDialog";
 
 interface Props {
   clusterId: number;
@@ -21,6 +22,7 @@ export function NodePools({ clusterId }: Props) {
   const recycleClusterDialog = useDisclosure();
   const recyclePoolDialog = useDisclosure();
   const recycleNodeDialog = useDisclosure();
+  const deleteNodePoolDialog = useDisclosure();
 
   const [selectedPool, setSelectedPool] = useState<number>();
   const [selectedNode, setSelectedNode] = useState<string>();
@@ -33,6 +35,11 @@ export function NodePools({ clusterId }: Props) {
   const onRecyclePool = (id: number) => {
     setSelectedPool(id);
     recyclePoolDialog.onOpen();
+  };
+
+  const onDeletePool = (id: number) => {
+    setSelectedPool(id);
+    deleteNodePoolDialog.onOpen();
   };
 
   if (isLoading) {
@@ -58,7 +65,13 @@ export function NodePools({ clusterId }: Props) {
       <CardBody>
         <Stack spacing={4}>
           {data.data.map((pool) => (
-            <NodePool key={pool.id} pool={pool} onRecycleNode={onRecycleNode} onRecyclePool={onRecyclePool} />
+            <NodePool
+              key={pool.id}
+              pool={pool}
+              onRecycleNode={onRecycleNode}
+              onRecyclePool={onRecyclePool}
+              onDeletePool={onDeletePool}
+            />
           ))}
           <Pagination
             page={page}
@@ -86,6 +99,12 @@ export function NodePools({ clusterId }: Props) {
         onClose={recycleNodeDialog.onClose}
         clusterId={clusterId}
         nodeId={selectedNode}
+      />
+      <DeleteNodePoolDialog
+        isOpen={deleteNodePoolDialog.isOpen}
+        onClose={deleteNodePoolDialog.onClose}
+        clusterId={clusterId}
+        nodePoolId={selectedPool}
       />
     </Card>
   );
