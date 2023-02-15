@@ -78,7 +78,7 @@ export function Create() {
             </FormControl>
             <HStack>
               <Spacer />
-              <Button type="submit" isLoading={isLoading} colorScheme="brand">Create</Button>
+              <Button type="submit" isLoading={isLoading} colorScheme="blue">Create</Button>
             </HStack>
           </Stack>
         </CardBody>

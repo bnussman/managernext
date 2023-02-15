@@ -47,7 +47,7 @@ export function RecycleNodePoolDialog({ isOpen, onClose, clusterId, nodePoolId }
             <Button ref={cancelRef} onClick={onClose}>
               Cancel
             </Button>
-            <Button colorScheme='brand' onClick={onRecycle} ml={3} isLoading={isLoading}>
+            <Button colorScheme='blue' onClick={onRecycle} ml={3} isLoading={isLoading}>
               Recycle
             </Button>
           </AlertDialogFooter>

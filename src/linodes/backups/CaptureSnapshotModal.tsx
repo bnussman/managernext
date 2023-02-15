@@ -35,7 +35,7 @@ export function CaptureSnapshotModal({ isOpen, onClose, linodeId }: Props) {
         </ModalBody>
         <ModalFooter>
           <Button
-            colorScheme='brand'
+            colorScheme='blue'
             onClick={onSubmit}
             isLoading={isLoading}
             isDisabled={!isDirty}

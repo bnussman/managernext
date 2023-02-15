@@ -40,7 +40,7 @@ export function NodePool({pool, clusterId, onRecycleNode, onRecyclePool, onDelet
             <HStack alignContent="center" spacing={3}>
               <Heading size="md">{type}</Heading>
               <Tag variant="outline">{count} Nodes</Tag>
-              {autoscaler.enabled && <Tag variant="outline" colorScheme="brand">Autoscaled</Tag>}
+              {autoscaler.enabled && <Tag variant="outline" colorScheme="blue">Autoscaled</Tag>}
             </HStack>
           </WrapItem>
           <Spacer />

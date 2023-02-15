@@ -48,7 +48,7 @@ export const Stats = memo(({ id }: Props) => {
           >
             <XAxis dataKey="time" scale="time" hide />
             <Tooltip content={<CUPTooltip />} wrapperStyle={{ outline: "none" }} />
-            <Area type="monotone" dataKey="value" stroke="rgb(104, 211, 145)" fill="rgb(104, 211, 145)" />
+            <Area type="monotone" dataKey="value" stroke="#85b4f2" fill="#85b4f2" />
           </AreaChart>
         </ResponsiveContainer>
       </Card>
@@ -62,7 +62,7 @@ export const Stats = memo(({ id }: Props) => {
           >
             <XAxis dataKey="time" scale="time" hide />
             <Tooltip content={<DiskTooltip />} wrapperStyle={{ outline: "none" }} />
-            <Area type="monotone" dataKey="value" stroke="rgb(104, 211, 145)" fill="rgb(104, 211, 145)" />
+            <Area type="monotone" dataKey="value" stroke="#85b4f2" fill="#85b4f2" />
           </AreaChart>
         </ResponsiveContainer>
       </Card>
@@ -76,10 +76,10 @@ export const Stats = memo(({ id }: Props) => {
           >
             <XAxis dataKey="time" scale="time" hide />
             <Tooltip content={<NetworkTooltip />} wrapperStyle={{ outline: "none" }} />
-            <Area type="monotone" dataKey="in" stroke="rgb(104, 211, 145)" fill="rgb(104, 211, 145)" />
-            <Area type="monotone" dataKey="out" stroke="#70d157" fill="#70d157" />
-            <Area type="monotone" dataKey="private_in" stroke="#a5c729" fill="#a5c729" />
-            <Area type="monotone" dataKey="private_out" stroke="#d4ba00" fill="#d4ba00" />
+            <Area type="monotone" dataKey="in" stroke="#85b4f2" fill="#85b4f2" />
+            <Area type="monotone" dataKey="out" stroke="#735ac7" fill="#735ac7" />
+            <Area type="monotone" dataKey="private_in" stroke="#8adbd3" fill="#8adbd3" />
+            <Area type="monotone" dataKey="private_out" stroke="#4a32e6" fill="#4a32e6" />
           </AreaChart>
         </ResponsiveContainer>
       </Card>
