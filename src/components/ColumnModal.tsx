@@ -39,12 +39,16 @@ export function ColumnModal({ isOpen, onClose, columns, handleToggleColumnHidden
           <Stack spacing={4}>
             <Box>
               <Heading letterSpacing="sm" size="md">Table</Heading>
-              <Switch onChange={handleToggleCompact} isChecked={compact}>
-                Compact
-              </Switch>
-              <Switch onChange={handleToggleCardView} isChecked={cardView}>
-                Card View
-              </Switch>
+              <HStack>
+                <Text>Compact</Text>
+                <Spacer />
+                <Switch onChange={handleToggleCompact} isChecked={compact} />
+              </HStack>
+              <HStack>
+                <Text>Card View</Text>
+                <Spacer />
+                <Switch onChange={handleToggleCardView} isChecked={cardView} />
+              </HStack>
             </Box>
             <Box>
               <Heading letterSpacing="sm" size="md">Columns</Heading>

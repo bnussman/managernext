@@ -130,7 +130,7 @@ export function Linodes() {
         columns={columns}
         query={useLinodesQuery}
         card={(linode) => (
-          <Card variant="outline" p={4}>
+          <Card variant="outline" p={4} onClick={() => navigate(`/linodes/${linode.id}`)}>
             <Stack>
               <HStack>
                 <Heading size="sm">
