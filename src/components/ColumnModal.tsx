@@ -20,13 +20,15 @@ import {
 interface Props {
   isOpen: boolean;
   compact: boolean;
+  cardView: boolean;
   onClose: () => void;
   columns: Column<any>[];
   handleToggleColumnHidden: (key: string) => void;
   handleToggleCompact: () => void;
+  handleToggleCardView: () => void;
 }
 
-export function ColumnModal({ isOpen, onClose, columns, handleToggleColumnHidden, handleToggleCompact, compact }: Props) {
+export function ColumnModal({ isOpen, onClose, columns, handleToggleColumnHidden, handleToggleCompact, compact, cardView, handleToggleCardView }: Props) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
@@ -39,6 +41,9 @@ export function ColumnModal({ isOpen, onClose, columns, handleToggleColumnHidden
               <Heading letterSpacing="sm" size="md">Table</Heading>
               <Switch onChange={handleToggleCompact} isChecked={compact}>
                 Compact
+              </Switch>
+              <Switch onChange={handleToggleCardView} isChecked={cardView}>
+                Card View
               </Switch>
             </Box>
             <Box>

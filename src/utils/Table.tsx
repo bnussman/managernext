@@ -1,4 +1,4 @@
-import { TableContainer, Thead, Tr, Th, Tbody, Td, Table as ChakraTable } from "@chakra-ui/react";
+import { TableContainer, Thead, Tr, Th, Tbody, Td, Table as ChakraTable, useMediaQuery } from "@chakra-ui/react";
 import { ResourcePage } from "@linode/api-v4/lib/types";
 import { UseQueryResult } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +17,7 @@ interface Props<T> {
   query: (params: Params, filter: any) => UseQueryResult<ResourcePage<T>>;
   entity: string;
   clickable?: boolean;
+  card?: (entity: T) => JSX.Element;
 }
 
 export function Table<T extends { id: string | number }>(props: Props<T>) {
@@ -35,7 +36,9 @@ export function Table<T extends { id: string | number }>(props: Props<T>) {
     onClose,
     onOpen,
     compact,
-    handleToggleCompact
+    cardView,
+    handleToggleCompact,
+    handleToggleCardView
   } = useTable<T>({ columns: props.columns });
 
   const getClickableProps = (entity: T) => {
@@ -66,36 +69,44 @@ export function Table<T extends { id: string | number }>(props: Props<T>) {
 
   return (
     <>
-      <TableContainer>
-        <ChakraTable size={compact ? 'sm' : 'md'}>
-          <Thead>
-            <Tr>
-              {columns.filter(column => !column.hidden).map((column) => (
-                <Th
-                  key={column.label}
-                  onClick={column.filterable ? () => handleOrderBy(column.key as string) : undefined}
-                  cursor={column.filterable ? "pointer" : undefined}
-                >
-                  {column.hideLabel ? null : column.label}
-                  {column.key && orderBy === column.key ? (order === 'asc' ? " ⬆️" : " ⬇️") : null}
-                </Th>
-              ))}
-            </Tr>
-          </Thead>
-          <Tbody>
-            {data?.data.map((entity) => (
-              <Tr
-                key={entity.id}
-                {...getClickableProps(entity)}
-              >
-                {columns.filter(column => !column.hidden).map((column) => (
-                  <Td {...column.tdProps} key={`${entity.id}-${column.key as string}`}>{column.transform ? column.transform(entity, compact) : String(entity[column.key as keyof T])}</Td>
+      {props.card && cardView ? (
+        <>
+          {data?.data.map((entity) => props.card?.(entity))}
+        </>
+      )
+        :
+        (
+          <TableContainer>
+            <ChakraTable size={compact ? 'sm' : 'md'}>
+              <Thead>
+                <Tr>
+                  {columns.filter(column => !column.hidden).map((column) => (
+                    <Th
+                      key={column.label}
+                      onClick={column.filterable ? () => handleOrderBy(column.key as string) : undefined}
+                      cursor={column.filterable ? "pointer" : undefined}
+                    >
+                      {column.hideLabel ? null : column.label}
+                      {column.key && orderBy === column.key ? (order === 'asc' ? " ⬆️" : " ⬇️") : null}
+                    </Th>
+                  ))}
+                </Tr>
+              </Thead>
+              <Tbody>
+                {data?.data.map((entity) => (
+                  <Tr
+                    key={entity.id}
+                    {...getClickableProps(entity)}
+                  >
+                    {columns.filter(column => !column.hidden).map((column) => (
+                      <Td {...column.tdProps} key={`${entity.id}-${column.key as string}`}>{column.transform ? column.transform(entity, compact) : String(entity[column.key as keyof T])}</Td>
+                    ))}
+                  </Tr>
                 ))}
-              </Tr>
-            ))}
-          </Tbody>
-        </ChakraTable>
-      </TableContainer>
+              </Tbody>
+            </ChakraTable>
+          </TableContainer>
+        )}
       {data?.results === 0 && <Empty title={`You have no ${capitalize(props.entity)}s`} />}
       <Pagination
         page={page}
@@ -110,8 +121,10 @@ export function Table<T extends { id: string | number }>(props: Props<T>) {
         onClose={onClose}
         columns={columns}
         compact={compact}
+        cardView={cardView}
         handleToggleColumnHidden={handleToggleColumnHidden}
         handleToggleCompact={handleToggleCompact}
+        handleToggleCardView={handleToggleCardView}
       />
     </>
   );

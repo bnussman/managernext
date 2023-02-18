@@ -14,6 +14,15 @@ import {
   Text,
   BoxProps,
   Stack,
+  Card,
+  Box,
+  Code,
+  Stat,
+  StatHelpText,
+  StatLabel,
+  StatNumber,
+  Wrap,
+  WrapItem,
 } from "@chakra-ui/react";
 
 export const statusMap: Record<Linode["status"], BoxProps["bgColor"]> = {
@@ -116,7 +125,77 @@ export function Linodes() {
           Create Linode
         </Button>
       </HStack>
-      <Table entity="linodes" columns={columns} query={useLinodesQuery} clickable />
+      <Table
+        entity="linodes"
+        columns={columns}
+        query={useLinodesQuery}
+        card={(linode) => (
+          <Card variant="outline" p={4}>
+            <Stack>
+              <HStack>
+                <Heading size="sm">
+                  {linode.label}
+                </Heading>
+                <Spacer />
+                <Menu linode={linode} />
+              </HStack>
+              <Wrap spacingX={16}>
+                <WrapItem>
+                  <Stat>
+                    <StatLabel>Status</StatLabel>
+                    <StatNumber>
+                      <HStack>
+                        <Text fontWeight="extrabold" textTransform="capitalize">{linode.status.replaceAll("_", " ")}</Text>
+                        <Indicator color={statusMap[linode.status]} />
+                      </HStack>
+                    </StatNumber>
+                    <StatHelpText>Status</StatHelpText>
+                  </Stat>
+                </WrapItem>
+                <WrapItem>
+                  <Stat>
+                    <StatLabel>CPU</StatLabel>
+                    <StatNumber>{linode.specs.vcpus}</StatNumber>
+                    <StatHelpText>CPUs</StatHelpText>
+                  </Stat>
+                </WrapItem>
+                <WrapItem>
+                  <Stat>
+                    <StatLabel>RAM</StatLabel>
+                    <StatNumber>{linode.specs.memory / 1024}</StatNumber>
+                    <StatHelpText>GB</StatHelpText>
+                  </Stat>
+                </WrapItem>
+                <WrapItem>
+                  <Stat>
+                    <StatLabel>Disk</StatLabel>
+                    <StatNumber>{linode.specs.disk / 1024}</StatNumber>
+                    <StatHelpText>GB</StatHelpText>
+                  </Stat>
+                </WrapItem>
+                <WrapItem>
+                  <Stat>
+                    <StatLabel>Region</StatLabel>
+                    <StatNumber>{dcDisplayNames[linode.region] ?? linode.region}</StatNumber>
+                    <StatHelpText textTransform="uppercase">{linode.region.split("-")[0]}</StatHelpText>
+                  </Stat>
+                </WrapItem>
+                <WrapItem>
+                  <Box>
+                    <Heading size="sm">IPv4</Heading>
+                    {linode.ipv4.map((ip) => (
+                      <Text key={ip}>
+                        <Code>{ip}</Code>
+                      </Text>
+                    ))}
+                  </Box>
+                </WrapItem>
+              </Wrap>
+            </Stack>
+          </Card>
+        )}
+        clickable
+      />
     </Stack>
   );
 };

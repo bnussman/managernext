@@ -6,7 +6,7 @@ import { useLinodeBootMutation, useLinodeRebootMutation, useLinodeShutdownMutati
 
 interface Props {
   linode: Linode;
-  compact: boolean;
+  compact?: boolean;
 }
 
 export function Menu({ linode, compact }: Props) {
