@@ -5,4 +5,4 @@ import { useQuery } from "@tanstack/react-query";
 const queryKey = "region";
 
 export const useRegionsQuery = () =>
-  useQuery<ResourcePage<Region>>([queryKey], getRegions);
+  useQuery<ResourcePage<Region>>([queryKey], () => getRegions({ page_size: 500 }));

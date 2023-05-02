@@ -13,10 +13,8 @@ export const volumeStatusMap: Record<Volume["status"], BoxProps["bgColor"]> = {
   creating: "orange.400",
   resizing: "orange.400",
   migrating: "orange.400",
-  deleted: "red.400",
-  contact_support: "red.400",
-  deleting: "red.400",
   active: "green.400",
+  offline: "grey.400",
 }
 
 export function Volumes({ id }: Props) {
