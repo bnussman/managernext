@@ -130,6 +130,8 @@ export function Table<T extends { id: string | number }>(props: Props<T>) {
         orderBy={orderBy}
         handleChangeOrder={handleChangeOrder}
         handleOrderBy={handleOrderBy}
+        pageSize={pageSize}
+        handlePageSizeChange={handlePageSizeChange}
       />
     </>
   );

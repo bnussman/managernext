@@ -16,6 +16,8 @@ import {
   Stack,
   Box,
   Select,
+  FormControl,
+  FormLabel,
 } from "@chakra-ui/react";
 
 interface Props {
@@ -31,9 +33,11 @@ interface Props {
   orderBy: string | undefined;
   handleChangeOrder: (order: 'asc' | 'desc') => void;
   handleOrderBy: (key: string) => void;
+  pageSize: number;
+  handlePageSizeChange: (size: number) => void;
 }
 
-export function ColumnModal({ isOpen, onClose, columns, handleToggleColumnHidden, handleToggleCompact, compact, cardView, handleToggleCardView, order, orderBy, handleChangeOrder, handleOrderBy }: Props) {
+export function ColumnModal({ isOpen, onClose, columns, handleToggleColumnHidden, handleToggleCompact, compact, cardView, handleToggleCardView, order, orderBy, handleChangeOrder, handleOrderBy, pageSize, handlePageSizeChange }: Props) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
@@ -56,15 +60,32 @@ export function ColumnModal({ isOpen, onClose, columns, handleToggleColumnHidden
               </HStack>
             </Box>
             <Box>
-              <Heading letterSpacing="sm" size="md">Order</Heading>
               <HStack>
-                <Select value={orderBy} onChange={(e) => handleOrderBy(e.target.value)}>
-                  {columns.filter(c => c.filterable && Boolean(c.key)).map(c => <option value={c.key as string}>{c.label}</option>)}
-                </Select>
-                <Select value={order} onChange={(e) => handleChangeOrder(e.target.value as 'asc' | 'desc')}>
-                  <option value="asc">ascending</option>
-                  <option value="desc">decending</option>
-                </Select>
+                <FormControl>
+                  <FormLabel>Order By</FormLabel>
+                  <Select value={orderBy} onChange={(e) => handleOrderBy(e.target.value)}>
+                    {columns.filter(c => c.filterable && Boolean(c.key)).map(c => <option value={c.key as string}>{c.label}</option>)}
+                  </Select>
+                </FormControl>
+                <FormControl>
+                  <FormLabel>Order</FormLabel>
+                  <Select value={order} onChange={(e) => handleChangeOrder(e.target.value as 'asc' | 'desc')}>
+                    <option value="asc">asc</option>
+                    <option value="desc">desc</option>
+                  </Select>
+                </FormControl>
+                <FormControl>
+                  <FormLabel>Page Size</FormLabel>
+                  <Select
+                    value={pageSize}
+                    onChange={(e) => handlePageSizeChange(Number(e.target.value))}
+                  >
+                    <option value={25}>25</option>
+                    <option value={50}>50</option>
+                    <option value={100}>100</option>
+                    <option value={500}>500</option>
+                  </Select>
+                </FormControl>
               </HStack>
             </Box>
             <Box>
