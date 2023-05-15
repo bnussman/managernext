@@ -15,6 +15,7 @@ import {
   Heading,
   Stack,
   Box,
+  Select,
 } from "@chakra-ui/react";
 
 interface Props {
@@ -26,9 +27,13 @@ interface Props {
   handleToggleColumnHidden: (key: string) => void;
   handleToggleCompact: () => void;
   handleToggleCardView: () => void;
+  order: 'asc' | 'desc' | undefined;
+  orderBy: string | undefined;
+  handleChangeOrder: (order: 'asc' | 'desc') => void;
+  handleOrderBy: (key: string) => void;
 }
 
-export function ColumnModal({ isOpen, onClose, columns, handleToggleColumnHidden, handleToggleCompact, compact, cardView, handleToggleCardView }: Props) {
+export function ColumnModal({ isOpen, onClose, columns, handleToggleColumnHidden, handleToggleCompact, compact, cardView, handleToggleCardView, order, orderBy, handleChangeOrder, handleOrderBy }: Props) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
@@ -48,6 +53,18 @@ export function ColumnModal({ isOpen, onClose, columns, handleToggleColumnHidden
                 <Text>Card View</Text>
                 <Spacer />
                 <Switch onChange={handleToggleCardView} isChecked={cardView} />
+              </HStack>
+            </Box>
+            <Box>
+              <Heading letterSpacing="sm" size="md">Order</Heading>
+              <HStack>
+                <Select value={orderBy} onChange={(e) => handleOrderBy(e.target.value)}>
+                  {columns.filter(c => c.filterable && Boolean(c.key)).map(c => <option value={c.key as string}>{c.label}</option>)}
+                </Select>
+                <Select value={order} onChange={(e) => handleChangeOrder(e.target.value as 'asc' | 'desc')}>
+                  <option value="asc">ascending</option>
+                  <option value="desc">decending</option>
+                </Select>
               </HStack>
             </Box>
             <Box>

@@ -4,7 +4,7 @@ export function useOrder() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const orderBy = searchParams.get('order_by') ?? undefined;
-  const order = searchParams.get('order') ?? undefined;
+  const order = (searchParams.get('order') as 'asc' | 'desc') ?? undefined;
 
   const handleChangeOrder = (order: 'asc' | 'desc') => {
     searchParams.set('order', order)

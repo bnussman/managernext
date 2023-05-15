@@ -30,6 +30,7 @@ export function Table<T extends { id: string | number }>(props: Props<T>) {
     order,
     orderBy,
     handleOrderBy,
+    handleChangeOrder,
     columns,
     handleToggleColumnHidden,
     isOpen,
@@ -125,6 +126,10 @@ export function Table<T extends { id: string | number }>(props: Props<T>) {
         handleToggleColumnHidden={handleToggleColumnHidden}
         handleToggleCompact={handleToggleCompact}
         handleToggleCardView={handleToggleCardView}
+        order={order}
+        orderBy={orderBy}
+        handleChangeOrder={handleChangeOrder}
+        handleOrderBy={handleOrderBy}
       />
     </>
   );
