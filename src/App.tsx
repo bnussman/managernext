@@ -4,14 +4,15 @@ import { ChakraProvider, Container } from '@chakra-ui/react'
 import { OAuth, useOAuth } from "./utils/OAuth";
 import { Navigation } from "./Navigation";
 import { theme } from "./utils/theme";
-import { LinodeRouter } from "./linodes";
 import { useEventsPollingQuery } from "./queries/events";
 import { baseRequest } from "@linode/api-v4";
 import { NotFound } from "./components/NotFound";
 import { normalizeErrors } from "./utils/errors";
+import { LinodeRouter } from "./linodes";
+import { KubernetesRouter } from "./kubernetes";
+import { NodeBalancerRouter } from "./nodebalancers";
 import "@fontsource/poppins/400.css"
 import "@fontsource/poppins/700.css"
-import { KubernetesRouter } from "./kubernetes";
 
 baseRequest.interceptors.response.use(undefined, normalizeErrors);
 
@@ -35,6 +36,7 @@ function Main() {
       <Navigation />
       <Container maxW="container.xl" pt={20}>
         <Routes>
+          <Route path="/nodebalancers/*" element={<NodeBalancerRouter />} />
           <Route path="/kubernetes/*" element={<KubernetesRouter />} />
           <Route path="/linodes/*" element={<LinodeRouter />} />
           <Route path="/" element={<Navigate to="/linodes" />} />
